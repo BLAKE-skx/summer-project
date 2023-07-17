@@ -5,7 +5,8 @@ import csv
 
 url = "https://www.basketball-reference.com/players/p/porzikr01.html"
 headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 "
+                  "Safari/537.36 "
 }
 
 resp = requests.get(url, headers=headers)
@@ -117,3 +118,5 @@ with open("player_Efficiency_data.csv", "w", newline="") as file:
             # 打印其他数据...
             print(f"Efficiency: {efficiency}")
             print()
+# Python + Selenium Web自动化 2022更新版教程 自动化测试 软件测试 爬虫
+# 白月黑羽
