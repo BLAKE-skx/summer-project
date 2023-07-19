@@ -120,15 +120,38 @@
 
 
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+import json
+import pandas as pd
 
-# wd = webdriver.Chrome('D:\Users\10357\Downloads\chromedriver_win32')
-wd = webdriver.Chrome(service=Service(r"D:\Users\10357\Downloads\chromedriver_win32"))
-wd.get("https://www.basketball-reference.com/players/m/murrade01.html")
-# 查找表格元素
-table_element = wd.find_element(By.ID, "per_game.2017")
-print(table_element.text)
-spans = table_element.find_elements(By.TAG_NAME, "td")
-for span in spans:
-    print(span.text)
+driver = webdriver.Chrome(ChromeDriverManager().install())
+
+driver.implicitly_wait(10)
+
+players = {}
+
+for i in range(26):
+    if i == 23:
+        continue
+    player_list_url = 'https://www.basketball-reference.com/players/' + chr(ord('a') + i)
+    driver.get(player_list_url)
+    player_element = driver.find_elements(By.XPATH, "//th[@data-stat='player']/a")
+    for j in range(len(player_element)):
+        name = player_element[j].getText()
+        url = player_element[j].get_attribute('href')
+        players[name] = url
+    time.sleep(30)
+
+with open('player_url_list.txt', 'w') as f:
+    f.write(json.dumps(players))
+    
+# with open('player_url_list.txt', 'r') as f:
+#     player = json.loads(f.read())
+
+# for name, url in players:
+#     driver.get(url)
+#     seasons_content = driver.find_element(By.XPATH, "//table[@id='per_game']").get_attribute('outerHTML')
+#     seasons_frame = pd.read_html(seasons_content)[0]
+#     seasons_frame.to_csv(name + '.csv')
