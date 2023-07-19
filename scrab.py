@@ -125,34 +125,37 @@ from webdriver_manager.chrome import ChromeDriverManager
 import time
 import json
 import pandas as pd
+import os
 
 driver = webdriver.Chrome(ChromeDriverManager().install())
 
 driver.implicitly_wait(10)
 
-players = {}
+# players = {}
 
-for i in range(26):
-    if i == 23:
-        continue
-    player_list_url = 'https://www.basketball-reference.com/players/' + chr(ord('a') + i)
-    driver.get(player_list_url)
-    player_element = driver.find_elements(By.XPATH, "//th[@data-stat='player']/a")
-    for j in range(len(player_element)):
-        name = player_element[j].text
-        url = player_element[j].get_attribute('href')
-        players[name] = url
-    time.sleep(30)
+# for i in range(26):
+#     if i == 23:
+#         continue
+#     player_list_url = 'https://www.basketball-reference.com/players/' + chr(ord('a') + i)
+#     driver.get(player_list_url)
+#     player_element = driver.find_elements(By.XPATH, "//th[@data-stat='player']/a")
+#     for j in range(len(player_element)):
+#         name = player_element[j].text
+#         url = player_element[j].get_attribute('href')
+#         players[name] = url
+#     time.sleep(30)
 
 with open('player_url_list.txt', 'w') as f:
     f.write(json.dumps(players))
     
-# with open('player_url_list.txt', 'r') as f:
-#     player = json.loads(f.read())
+with open('player_url_list.txt', 'r') as f:
+    players = json.loads(f.read())
 
-# for name, url in players:
-#     driver.get(url)
-#     seasons_content = driver.find_element(By.XPATH, "//table[@id='per_game']").get_attribute('outerHTML')
-#     seasons_frame = pd.read_html(seasons_content)[0]
-#     seasons_frame.to_csv(name + '.csv')
-time.sleep(10)
+files = os.listdir(os.getcwd())
+for name, url in players.items():
+    if "{}.csv".format(name) not in files:
+        driver.get(url)
+        seasons_content = driver.find_element(By.XPATH, "//table[@id='per_game']").get_attribute('outerHTML')
+        seasons_frame = pd.read_html(seasons_content)[0]
+        seasons_frame.to_csv(name + '.csv')
+        time.sleep(10)
