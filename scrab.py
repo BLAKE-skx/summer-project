@@ -155,3 +155,4 @@ with open('player_url_list.txt', 'w') as f:
 #     seasons_content = driver.find_element(By.XPATH, "//table[@id='per_game']").get_attribute('outerHTML')
 #     seasons_frame = pd.read_html(seasons_content)[0]
 #     seasons_frame.to_csv(name + '.csv')
+time.sleep(10)
