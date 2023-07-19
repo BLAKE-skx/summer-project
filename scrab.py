@@ -139,7 +139,7 @@ for i in range(26):
     driver.get(player_list_url)
     player_element = driver.find_elements(By.XPATH, "//th[@data-stat='player']/a")
     for j in range(len(player_element)):
-        name = player_element[j].getText()
+        name = player_element[j].text
         url = player_element[j].get_attribute('href')
         players[name] = url
     time.sleep(30)
