@@ -1,0 +1,21 @@
+I wanted to share with you the analysis results based on the data you provided. I have performed a multiple linear regression analysis to investigate the relationship between the predictors and the points scored (PTS) in basketball games. Please find below a detailed summary of the analysis:
+
+Model Summary: The multiple linear regression model yielded a high R-squared value of 0.935, indicating that the model explains approximately 93.5% of the variance in points scored. This suggests a strong linear relationship between the predictors and the dependent variable.
+
+Model Equation: The model equation can be expressed as follows:
+
+PTS = -85.6125 + 1.0313 * FGA + 0.7665 * FTA - 0.0610 * OREB - 0.0036 * DREB + 0.0863 * AST + 0.0158 * STL + 101.1267 * FG2% + 94.6886 * FG3%
+
+This equation provides the estimated points scored based on the predictor variables. Each coefficient represents the impact of the corresponding predictor on points scored.
+
+Model Evaluation: The model's performance was assessed using various metrics:
+
+Mean Squared Error (MSE): The MSE was found to be 9.263, which indicates the average squared difference between the predicted and actual points scored. Lower values of MSE imply better predictive accuracy.
+
+Root Mean Squared Error (RMSE): The RMSE was calculated as 3.0435, representing the standard deviation of the residuals. It provides a measure of the average absolute prediction error.
+
+Mean Absolute Error (MAE): The MAE was determined to be 2.321, which represents the average absolute difference between the predicted and actual points scored.
+
+Correlation and VIF: A correlation matrix was constructed to assess the relationships between predictor variables. Additionally, the Variance Inflation Factor (VIF) was calculated to examine multicollinearity among the predictors. The VIF values were all relatively low, indicating no significant multicollinearity issues.
+
+In conclusion, based on the analysis of the provided data, the multiple linear regression model demonstrates a strong relationship between the predictor variables and the points scored. The model exhibits a high R-squared value of 0.935, suggesting that approximately 93.5% of the variance in points scored can be explained by the predictors. The evaluation metrics, including MSE, RMSE, and MAE, indicate reasonable predictive accuracy.

@@ -134,6 +134,11 @@ driver.implicitly_wait(10)
 
 players = {}
 
+print("Current working directory:", os.getcwd())
+
+file_path = "player_url_list.txt"
+full_file_path = os.path.abspath(file_path)
+print("Full file path:", full_file_path)
 # for i in range(26):
 #     if i == 23:
 #         continue
@@ -151,9 +156,15 @@ players = {}
 # with open("player_url_list.txt", "w") as f:
 #     f.write(json.dumps(players))
 
+# print("Current working directory:", os.getcwd())
+
+# file_path = "player_url_list.txt"
+# full_file_path = os.path.abspath(file_path)
+# print("Full file path:", full_file_path)
+
+
 with open("player_url_list.txt", "r") as f:
     players = json.loads(f.read())
-
 files = os.listdir(os.getcwd() + "/player_list")
 for name, url in players.items():
     if "{}.csv".format(name) not in files:
@@ -164,3 +175,36 @@ for name, url in players.items():
         seasons_frame = pd.read_html(seasons_content)[0]
         seasons_frame.to_csv("player_list/" + name + ".csv")
         time.sleep(10)
+
+
+data = pd.read_csv(
+    r"C:\Users\10357\Desktop\毕业论文GitHub\summer-project\player_list/" + name + ".csv"
+)
+# 显示数据的前几行
+print(data.head())
+
+
+# import pandas as pd
+
+# # 读取CSV文件为DataFrame
+# data = pd.read_csv("player_list/玩家姓名.csv")
+
+# # 显示数据的前几行
+# print(data.head())
+
+# # 获取数据的统计摘要
+# print(data.describe())
+
+# # 计算每个赛季的平均得分
+# avg_points_by_season = data.groupby("Season")["PTS"].mean()
+# print(avg_points_by_season)
+
+# # 可视化平均得分数据
+# import matplotlib.pyplot as plt
+
+# plt.plot(avg_points_by_season.index, avg_points_by_season.values)
+# plt.xlabel("Season")
+# plt.ylabel("Average Points")
+# plt.title("Average Points by Season")
+# plt.xticks(rotation=45)
+# plt.show()
