@@ -128,9 +128,9 @@ import json
 import pandas as pd
 import os
 
-driver = webdriver.Chrome(ChromeDriverManager().install())
+# driver = webdriver.Chrome(ChromeDriverManager().install())
 
-driver.implicitly_wait(10)
+# driver.implicitly_wait(10)
 
 players = {}
 
@@ -163,27 +163,40 @@ print("Full file path:", full_file_path)
 # print("Full file path:", full_file_path)
 
 
+#  download the data into the csv file ;
+# with open("player_url_list.txt", "r") as f:
+#     players = json.loads(f.read())
+# files = os.listdir(os.getcwd() + "/player_list")
+# for name, url in players.items():
+#     if "{}.csv".format(name) not in files:
+#         driver.get(url)
+#         seasons_content = driver.find_element(
+#             By.XPATH, "//table[@id='per_game']"
+#         ).get_attribute("outerHTML")
+#         seasons_frame = pd.read_html(seasons_content)[0]
+#         seasons_frame.to_csv("player_list/" + name + ".csv")
+#         time.sleep(10)
 with open("player_url_list.txt", "r") as f:
     players = json.loads(f.read())
-files = os.listdir(os.getcwd() + "/player_list")
+# 循环遍历每个球员的姓名和URL
 for name, url in players.items():
-    if "{}.csv".format(name) not in files:
-        driver.get(url)
-        seasons_content = driver.find_element(
-            By.XPATH, "//table[@id='per_game']"
-        ).get_attribute("outerHTML")
-        seasons_frame = pd.read_html(seasons_content)[0]
-        seasons_frame.to_csv("player_list/" + name + ".csv")
-        time.sleep(10)
+    csv_file_path = os.path.join("player_list", f"{name}.csv")  # 构建 CSV 文件路径
+    if os.path.exists(csv_file_path):
+        # 如果 CSV 文件存在，则读取并进行操作
+        data = pd.read_csv(csv_file_path)
+        data["efficiency ratio"] = (
+            data["PTS"] + data["PTS"] + data["PTS"] + data["PTS"] + data["PTS"]
+        )
+        # 在这里可以根据需要对 data 进行一些操作
+        # 例如，你可以计算某些数值、绘制图表等
+        print(f"Processing data for player: {name}")
+    else:
+        # 如果 CSV 文件不存在，输出提示
+        print(f"CSV file not found for player: {name}")
 
-
-data = pd.read_csv(
-    r"C:\Users\10357\Desktop\毕业论文GitHub\summer-project\player_list/" + name + ".csv"
-)
-# 显示数据的前几行
-print(data.head())
-
-
+# data = pd.read_csv(
+#     r"C:\Users\10357\Desktop\毕业论文GitHub\summer-project\player_list/" + name + ".csv"
+# )
 # import pandas as pd
 
 # # 读取CSV文件为DataFrame
