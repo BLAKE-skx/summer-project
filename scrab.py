@@ -1,144 +1,17 @@
-# import requests
-# from lxml import etree
-# import csv
-
-
-# url = "https://www.basketball-reference.com/players/p/porzikr01.html"
-# headers = {
-#     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
-# }
-
-# resp = requests.get(url, headers=headers)
-# resp_html = etree.HTML(resp.text)
-
-# # 使用修改后的XPath表达式定位元素
-# elements = resp_html.xpath('//*[@id="per_game"]/tbody')
-
-# # 提取所有行
-# rows = elements[0].xpath("tr")[0:3] + elements[0].xpath("tr")[4:]
-
-# # 打开CSV文件并创建CSV写入器
-# with open("player_Efficiency_data.csv", "w", newline="") as file:
-#     writer = csv.writer(file)
-
-#     # 写入表头
-#     writer.writerow(
-#         [
-#             "name",
-#             "Age",
-#             "Team",
-#             "League",
-#             "Position",
-#             "Games Played",
-#             "Games Started",
-#             "Minutes Played",
-#             "Efficiency",
-#         ]
-#     )
-
-#     # 遍历每一行
-#     for row in rows:
-#         cells = row.xpath("td")
-#         # 检查单元格是否存在并提取数据
-#         age = (
-#             int(cells[0].text.strip())
-#             if cells[0].text and cells[0].text.isdigit()
-#             else 0
-#         )
-#         team = cells[1].text.strip() if cells[1].text else ""
-#         league = cells[2].text.strip() if cells[2].text else ""
-#         position = cells[3].text.strip() if cells[3].text else ""
-#         games_played = (
-#             int(cells[4].text.strip())
-#             if cells[4].text and cells[4].text.isdigit()
-#             else 0
-#         )
-#         games_started = (
-#             int(cells[5].text.strip())
-#             if cells[5].text and cells[5].text.isdigit()
-#             else 0
-#         )
-#         minutes_played = cells[6].text.strip() if cells[6].text else ""
-#         field_goals = float(cells[7].text.strip())
-#         field_goals_attempted = float(cells[8].text.strip())
-#         field_goal_percentage = float(cells[9].text.strip())
-#         three_pointers = float(cells[10].text.strip())
-#         three_pointers_attempted = float(cells[11].text.strip())
-#         three_point_percentage = float(cells[12].text.strip())
-#         two_pointers = float(cells[13].text.strip())
-#         two_pointers_attempted = float(cells[14].text.strip())
-#         two_point_percentage = float(cells[15].text.strip())
-#         effective_field_goal_percentage = float(cells[16].text.strip())
-#         free_throws = float(cells[17].text.strip())
-#         free_throws_attempted = float(cells[18].text.strip())
-#         free_throw_percentage = float(cells[19].text.strip())
-#         offensive_rebounds = float(cells[20].text.strip())
-#         defensive_rebounds = float(cells[21].text.strip())
-#         total_rebounds = float(cells[22].text.strip())
-#         assists = float(cells[23].text.strip())
-#         steals = float(cells[24].text.strip())
-#         blocks = float(cells[25].text.strip())
-#         turnovers = float(cells[26].text.strip())
-#         personal_fouls = float(cells[27].text.strip())
-#         points = float(cells[28].text.strip())
-
-#         # 只计算有效的效率值
-#         if games_played >= 30:
-#             # 计算效率值
-#             efficiency = (
-#                 (points + assists + total_rebounds + steals + blocks)
-#                 - (field_goals_attempted - field_goals)
-#                 - (free_throws_attempted - free_throws)
-#                 - turnovers
-#             ) / games_played
-
-#             # 写入一行数据到CSV文件
-#             writer.writerow(
-#                 [
-#                     age,
-#                     team,
-#                     league,
-#                     position,
-#                     games_played,
-#                     games_started,
-#                     minutes_played,
-#                     efficiency,
-#                 ]
-#             )
-
-#             # 打印数据
-#             print(f"Age: {age}")
-#             print(f"Team: {team}")
-#             print(f"League: {league}")
-#             print(f"Position: {position}")
-#             print(f"Games Played: {games_played}")
-#             print(f"Games Started: {games_started}")
-#             print(f"Minutes Played: {minutes_played}")
-#             # 打印其他数据...
-#             print(f"Efficiency: {efficiency}")
-#             print()
-
-
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
-import time
-import json
-import pandas as pd
-import os
+# from selenium import webdriver
+# from selenium.webdriver.chrome.service import Service
+# from selenium.webdriver.common.by import By
+# from webdriver_manager.chrome import ChromeDriverManager
+# import time
+# import json
+# import pandas as pd
+# import os
 
 # driver = webdriver.Chrome(ChromeDriverManager().install())
 
 # driver.implicitly_wait(10)
 
-players = {}
-
-print("Current working directory:", os.getcwd())
-
-file_path = "player_url_list.txt"
-full_file_path = os.path.abspath(file_path)
-print("Full file path:", full_file_path)
+# players = {}
 # for i in range(26):
 #     if i == 23:
 #         continue
@@ -176,23 +49,23 @@ print("Full file path:", full_file_path)
 #         seasons_frame = pd.read_html(seasons_content)[0]
 #         seasons_frame.to_csv("player_list/" + name + ".csv")
 #         time.sleep(10)
-with open("player_url_list.txt", "r") as f:
-    players = json.loads(f.read())
-# 循环遍历每个球员的姓名和URL
-for name, url in players.items():
-    csv_file_path = os.path.join("player_list", f"{name}.csv")  # 构建 CSV 文件路径
-    if os.path.exists(csv_file_path):
-        # 如果 CSV 文件存在，则读取并进行操作
-        data = pd.read_csv(csv_file_path)
-        data["efficiency ratio"] = (
-            data["PTS"] + data["PTS"] + data["PTS"] + data["PTS"] + data["PTS"]
-        )
-        # 在这里可以根据需要对 data 进行一些操作
-        # 例如，你可以计算某些数值、绘制图表等
-        print(f"Processing data for player: {name}")
-    else:
-        # 如果 CSV 文件不存在，输出提示
-        print(f"CSV file not found for player: {name}")
+# with open("player_url_list.txt", "r") as f:
+#     players = json.loads(f.read())
+# # 循环遍历每个球员的姓名和URL
+# for name, url in players.items():
+#     csv_file_path = os.path.join("player_list", f"{name}.csv")  # 构建 CSV 文件路径
+#     if os.path.exists(csv_file_path):
+#         # 如果 CSV 文件存在，则读取并进行操作
+#         data = pd.read_csv(csv_file_path)
+#         data["efficiency ratio"] = (
+#             data["PTS"] + data["PTS"] + data["PTS"] + data["PTS"] + data["PTS"]
+#         )
+#         # 在这里可以根据需要对 data 进行一些操作
+#         # 例如，你可以计算某些数值、绘制图表等
+#         print(f"Processing data for player: {name}")
+#     else:
+#         # 如果 CSV 文件不存在，输出提示
+#         print(f"CSV file not found for player: {name}")
 
 # data = pd.read_csv(
 #     r"C:\Users\10357\Desktop\毕业论文GitHub\summer-project\player_list/" + name + ".csv"
@@ -221,3 +94,99 @@ for name, url in players.items():
 # plt.title("Average Points by Season")
 # plt.xticks(rotation=45)
 # plt.show()
+
+
+# from selenium import webdriver
+# from selenium.webdriver.chrome.service import Service
+# from selenium.webdriver.common.by import By
+# from webdriver_manager.chrome import ChromeDriverManager
+# import time
+# import json
+# import pandas as pd
+# import os
+
+# driver = webdriver.Chrome(ChromeDriverManager().install())
+
+# driver.implicitly_wait(10)
+
+# teams = {}
+# # team_list_url = "https://www.basketball-reference.com/teams/"
+# # driver.get(team_list_url)
+# team_element = driver.find_elements(By.XPATH, "//th[@data-stat='franch_name']/a")
+# for j in range(len(team_element)):
+#     name = team_element[j].text
+#     url = team_element[j].get_attribute("href")
+#     teams[name] = url
+#     time.sleep(30)
+
+# with open("team_url_list.txt", "w") as f:
+#     f.write(json.dumps(teams))
+#  download the data into the csv file ;
+# with open("team_url_list.txt", "r") as f:
+#     teams = json.loads(f.read())
+# files = os.listdir(os.getcwd() + "/team_list")
+# for name, url in teams.items():
+#     if "{}.csv".format(name) not in files:
+#         driver.get(url)
+#         seasons_content = driver.find_element(
+#             By.XPATH, "//table[@id='per_game']"
+#         ).get_attribute("outerHTML")
+#         seasons_frame = pd.read_html(seasons_content)[0]
+#         seasons_frame.to_csv("team_list/" + name + ".csv")
+#         time.sleep(10)
+# with open("player_url_list.txt", "r") as f:
+#     players = json.loads(f.read())
+# # 循环遍历每个球员的姓名和URL
+# for name, url in players.items():
+#     csv_file_path = os.path.join("player_list", f"{name}.csv")  # 构建 CSV 文件路径
+#     if os.path.exists(csv_file_path):
+#         # 如果 CSV 文件存在，则读取并进行操作
+#         data = pd.read_csv(csv_file_path)
+#         data["efficiency ratio"] = (
+#             data["PTS"] + data["PTS"] + data["PTS"] + data["PTS"] + data["PTS"]
+#         )
+#         # 在这里可以根据需要对 data 进行一些操作
+#         # 例如，你可以计算某些数值、绘制图表等
+#         print(f"Processing data for player: {name}")
+#     else:
+#         # 如果 CSV 文件不存在，输出提示
+#         print(f"CSV file not found for player: {name}")
+
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+import json
+import pandas as pd
+import os
+
+driver = webdriver.Chrome(ChromeDriverManager().install())
+
+driver.implicitly_wait(10)
+
+seasons = {}
+season_list_url = "https://www.basketball-reference.com/leagues/"
+driver.get(season_list_url)
+# season_element = driver.find_elements(By.XPATH, "//th[@data-stat='season']/a")
+# for j in range(len(season_element)):
+#     name = season_element[j].text
+#     url = season_element[j].get_attribute("href")
+#     seasons[name] = url
+#     time.sleep(30)
+# with open("season_url_list.txt", "w") as f:
+#     f.write(json.dumps(seasons))
+
+
+with open("season_url_list.txt", "r") as f:
+    seasons = json.loads(f.read())
+files = os.listdir(os.getcwd() + "/season_list")
+for name, url in seasons.items():
+    if "{}.csv".format(name) not in files:
+        driver.get(url)
+        seasons_content = driver.find_element(
+            By.XPATH, "//table[@id='switcher_totals_team-opponent']"
+        ).get_attribute("outerHTML")
+        seasons_frame = pd.read_html(seasons_content)[0]
+        seasons_frame.to_csv("season_list/" + name + ".csv")
+        time.sleep(10)
