@@ -160,14 +160,15 @@ import time
 import json
 import pandas as pd
 import os
+import numpy as np
 
-driver = webdriver.Chrome(ChromeDriverManager().install())
+# driver = webdriver.Chrome(ChromeDriverManager().install())
 
-driver.implicitly_wait(10)
+# driver.implicitly_wait(10)
 
 seasons = {}
-season_list_url = "https://www.basketball-reference.com/leagues/"
-driver.get(season_list_url)
+# season_list_url = "https://www.basketball-reference.com/leagues/"
+# driver.get(season_list_url)
 # season_element = driver.find_elements(By.XPATH, "//th[@data-stat='season']/a")
 # for j in range(len(season_element)):
 #     name = season_element[j].text
@@ -178,15 +179,16 @@ driver.get(season_list_url)
 #     f.write(json.dumps(seasons))
 
 
-with open("season_url_list.txt", "r") as f:
-    seasons = json.loads(f.read())
-files = os.listdir(os.getcwd() + "/season_list")
-for name, url in seasons.items():
-    if "{}.csv".format(name) not in files:
-        driver.get(url)
-        seasons_content = driver.find_element(
-            By.XPATH, "//table[@id='switcher_totals_team-opponent']"
-        ).get_attribute("outerHTML")
-        seasons_frame = pd.read_html(seasons_content)[0]
-        seasons_frame.to_csv("season_list/" + name + ".csv")
-        time.sleep(10)
+# with open("season_url_list.txt", "r") as f:
+#     seasons = json.loads(f.read())
+# files = os.listdir(os.getcwd() + "/season_list")
+# for name, url in seasons.items():
+#     if "{}.csv".format(name) not in files:
+#         # driver.get(url)
+#         seasons_content = driver.find_element(
+#             By.XPATH, "//table[@id='totals-team']"
+#         ).get_attribute("outerHTML")
+#         seasons_frame = pd.read_html(seasons_content)[0]
+#         seasons_frame.to_csv("season_list/" + name + ".csv")
+
+# 从文件加载赛季数据的URL  --------------  1
