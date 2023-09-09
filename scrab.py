@@ -96,44 +96,63 @@
 # plt.show()
 
 
-# from selenium import webdriver
-# from selenium.webdriver.chrome.service import Service
-# from selenium.webdriver.common.by import By
-# from webdriver_manager.chrome import ChromeDriverManager
-# import time
-# import json
-# import pandas as pd
-# import os
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+import json
+import requests
+import pandas as pd
+import os
 
-# driver = webdriver.Chrome(ChromeDriverManager().install())
+driver = webdriver.Chrome(ChromeDriverManager().install())
 
-# driver.implicitly_wait(10)
+driver.implicitly_wait(10)
 
-# teams = {}
-# # team_list_url = "https://www.basketball-reference.com/teams/"
-# # driver.get(team_list_url)
-# team_element = driver.find_elements(By.XPATH, "//th[@data-stat='franch_name']/a")
-# for j in range(len(team_element)):
-#     name = team_element[j].text
-#     url = team_element[j].get_attribute("href")
-#     teams[name] = url
-#     time.sleep(30)
+teams = {}
+team_list_url = "https://www.basketball-reference.com/teams/"
+driver.get(team_list_url)
+team_element = driver.find_elements(By.XPATH, "//th[@data-stat='franch_name']/a")
+with open("team_url_list.txt", "a") as f:
+    for j in range(len(team_element) - 23):
+        for i in range(43):
+            name = team_element[j].text
+            url = team_element[j].get_attribute("href") + str(2023 - i) + ".html"
+            teams[name] = url
+            time.sleep(10)
+            print(url)
 
-# with open("team_url_list.txt", "w") as f:
-#     f.write(json.dumps(teams))
+            # 将数据写入文件
+            f.write(json.dumps({name: url}))
+
+
 #  download the data into the csv file ;
 # with open("team_url_list.txt", "r") as f:
 #     teams = json.loads(f.read())
 # files = os.listdir(os.getcwd() + "/team_list")
 # for name, url in teams.items():
 #     if "{}.csv".format(name) not in files:
-#         driver.get(url)
-#         seasons_content = driver.find_element(
-#             By.XPATH, "//table[@id='per_game']"
-#         ).get_attribute("outerHTML")
-#         seasons_frame = pd.read_html(seasons_content)[0]
-#         seasons_frame.to_csv("team_list/" + name + ".csv")
-#         time.sleep(10)
+#         try:
+#             response = requests.get(url)
+#             response.raise_for_status()  # 检查HTTP状态码
+#         except requests.exceptions.HTTPError as errh:
+#             print("HTTP Error:", errh)
+#         except requests.exceptions.ConnectionError as errc:
+#             print("Error Connecting:", errc)
+#         except requests.exceptions.Timeout as errt:
+#             print("Timeout Error:", errt)
+#         except requests.exceptions.RequestException as err:
+#             print("Request Exception:", err)
+#             driver.get(url)
+#             teams_content = driver.find_element(
+#                 By.XPATH, "//table[@id='totals']"
+#             ).get_attribute("outerHTML")
+#             seasons_frame = pd.read_html(teams_content)[0]
+#             seasons_frame.to_csv("team_list/" + name + ".csv")
+#             time.sleep(10)
+
+
 # with open("player_url_list.txt", "r") as f:
 #     players = json.loads(f.read())
 # # 循环遍历每个球员的姓名和URL
@@ -152,21 +171,25 @@
 #         # 如果 CSV 文件不存在，输出提示
 #         print(f"CSV file not found for player: {name}")
 
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
-import time
-import json
-import pandas as pd
-import os
-import numpy as np
+
+# ----------------------- important !!!!! --------------------------------------
+# from selenium import webdriver
+# from selenium.webdriver.chrome.service import Service
+# from selenium.webdriver.common.by import By
+# from webdriver_manager.chrome import ChromeDriverManager
+# import time
+# import json
+# import pandas as pd
+# import os
+# import numpy as np
 
 # driver = webdriver.Chrome(ChromeDriverManager().install())
 
 # driver.implicitly_wait(10)
-
-seasons = {}
+# seasons = {}
+# players = {}
+# teams = {}
+# team_list_url = ""
 # season_list_url = "https://www.basketball-reference.com/leagues/"
 # driver.get(season_list_url)
 # season_element = driver.find_elements(By.XPATH, "//th[@data-stat='season']/a")
@@ -178,13 +201,52 @@ seasons = {}
 # with open("season_url_list.txt", "w") as f:
 #     f.write(json.dumps(seasons))
 
+#   WAIT SOMETIME TO CALCULATE THE DATA ！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！---------------------
 
 # with open("season_url_list.txt", "r") as f:
 #     seasons = json.loads(f.read())
 # files = os.listdir(os.getcwd() + "/season_list")
 # for name, url in seasons.items():
+#     factor_frame = pd.read_csv("season_list/" + name + ".csv")
+#     factor_frame["AST"] = pd.to_numeric(factor_frame["AST"], errors="coerce")
+#     factor_frame["FG"] = pd.to_numeric(factor_frame["FG"], errors="coerce")
+#     factor_frame["FT"] = pd.to_numeric(factor_frame["FT"], errors="coerce")
+#     factor_frame["PTS"] = pd.to_numeric(factor_frame["PTS"], errors="coerce")
+#     factor_frame["FGA"] = pd.to_numeric(factor_frame["FGA"], errors="coerce")
+#     factor_frame["FTA"] = pd.to_numeric(factor_frame["FTA"], errors="coerce")
+#     factor_frame["ORB"] = pd.to_numeric(factor_frame["ORB"], errors="coerce")
+#     factor_frame["TOV"] = pd.to_numeric(factor_frame["TOV"], errors="coerce")
+#     # 重复上述步骤对其他列进行处理
+
+# factor_frame["Factor"] = (2 / 3) - (
+#     0.5 * (factor_frame["AST"] / factor_frame["FG"])
+# ) / (2 * (factor_frame["FG"] / factor_frame["FT"]))
+
+# factor_frame["team_League_VOP"] = factor_frame["PTS"] / (
+#     factor_frame["FGA"]
+#     + 0.44 * factor_frame["FTA"]
+#     - factor_frame["ORB"]
+#     + factor_frame["TOV"]
+# )
+
+# deep thinking for the calculate the gper !
+
+# with open("player_url_list.txt", "r") as f:
+#     players = json.loads(f.read())
+# files = os.listdir(os.getcwd() + "/player_list")
+# for name, url in players.items():
+#     player_frame = pd.read_csv("player_list/" + name + ".csv")
+#     factor_frame["gPER1"] = (
+#         2
+#         - (factor_frame["League_Factor"])
+#         * (factor_frame["AST"] / factor_frame["FG"])
+#     ) * player_frame["FG"]
+
+# # 保存修改后的DataFrame回CSV文件
+# factor_frame.to_csv("season_list/" + name + ".csv", index=False)
+
 #     if "{}.csv".format(name) not in files:
-#         # driver.get(url)
+#          driver.get(url)
 #         seasons_content = driver.find_element(
 #             By.XPATH, "//table[@id='totals-team']"
 #         ).get_attribute("outerHTML")
