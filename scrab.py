@@ -109,48 +109,37 @@ import os
 driver = webdriver.Chrome(ChromeDriverManager().install())
 
 driver.implicitly_wait(10)
-
 teams = {}
-team_list_url = "https://www.basketball-reference.com/teams/"
-driver.get(team_list_url)
-team_element = driver.find_elements(By.XPATH, "//th[@data-stat='franch_name']/a")
-with open("team_url_list.txt", "a") as f:
-    for j in range(len(team_element) - 23):
-        for i in range(43):
-            name = team_element[j].text
-            url = team_element[j].get_attribute("href") + str(2023 - i) + ".html"
-            teams[name] = url
-            time.sleep(10)
-            print(url)
+# team_list_url = "https://www.basketball-reference.com/teams/"
+# driver.get(team_list_url)
+# team_element = driver.find_elements(By.XPATH, "//th[@data-stat='franch_name']/a")
+# with open("team_url_list.txt", "a") as f:
+#     for j in range(len(team_element) - 48):
+#         for i in range(3):
+#             name = team_element[j].text
+#             url = team_element[j].get_attribute("href") + str(2023 - i) + ".html"
+#             teams[name] = url
+#             time.sleep(10)
+#             print(teams)
 
-            # 将数据写入文件
-            f.write(json.dumps({name: url}))
+#             # 将数据写入文件
+#             f.write(json.dumps(teams))
+#             teams = {}
 
 
 #  download the data into the csv file ;
-# with open("team_url_list.txt", "r") as f:
-#     teams = json.loads(f.read())
-# files = os.listdir(os.getcwd() + "/team_list")
-# for name, url in teams.items():
-#     if "{}.csv".format(name) not in files:
-#         try:
-#             response = requests.get(url)
-#             response.raise_for_status()  # 检查HTTP状态码
-#         except requests.exceptions.HTTPError as errh:
-#             print("HTTP Error:", errh)
-#         except requests.exceptions.ConnectionError as errc:
-#             print("Error Connecting:", errc)
-#         except requests.exceptions.Timeout as errt:
-#             print("Timeout Error:", errt)
-#         except requests.exceptions.RequestException as err:
-#             print("Request Exception:", err)
-#             driver.get(url)
-#             teams_content = driver.find_element(
-#                 By.XPATH, "//table[@id='totals']"
-#             ).get_attribute("outerHTML")
-#             seasons_frame = pd.read_html(teams_content)[0]
-#             seasons_frame.to_csv("team_list/" + name + ".csv")
-#             time.sleep(10)
+with open("team_url_list.txt", "r") as f:
+    teams = json.loads(f.read())
+files = os.listdir(os.getcwd() + "/team_list")
+for name, url in teams.items():
+    if "{}.csv".format(name) not in files:
+        driver.get(url)
+        teams_content = driver.find_element(
+            By.XPATH, "//table[@id='totals']"
+        ).get_attribute("outerHTML")
+        seasons_frame = pd.read_html(teams_content)[0]
+        seasons_frame.to_csv("team_list/" + name + ".csv")
+        time.sleep(10)
 
 
 # with open("player_url_list.txt", "r") as f:
