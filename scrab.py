@@ -96,50 +96,63 @@
 # plt.show()
 
 
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
-import time
-import json
-import requests
-import pandas as pd
-import os
+# from selenium import webdriver
+# from selenium.webdriver.chrome.service import Service
+# from selenium.webdriver.common.by import By
+# from webdriver_manager.chrome import ChromeDriverManager
+# import time
+# import json
+# import requests
+# import pandas as pd
+# import os
 
-driver = webdriver.Chrome(ChromeDriverManager().install())
+# driver = webdriver.Chrome(ChromeDriverManager().install())
 
-driver.implicitly_wait(10)
-teams = {}
+# driver.implicitly_wait(10)
+# teams = {}
 # team_list_url = "https://www.basketball-reference.com/teams/"
 # driver.get(team_list_url)
+# 获取球队列表
 # team_element = driver.find_elements(By.XPATH, "//th[@data-stat='franch_name']/a")
-# with open("team_url_list.txt", "a") as f:
-#     for j in range(len(team_element) - 48):
-#         for i in range(3):
-#             name = team_element[j].text
-#             url = team_element[j].get_attribute("href") + str(2023 - i) + ".html"
-#             teams[name] = url
-#             time.sleep(10)
-#             print(teams)
-
-#             # 将数据写入文件
-#             f.write(json.dumps(teams))
-#             teams = {}
+# # 遍历每个球队
+# for j in range(len(team_element) - 23):
+#     # 获取球队名
+#     name = team_element[j].text
+#     # 创建该球队的字典以及其赛季列表
+#     teams[name] = []
+#     # 遍历最近的三个赛季
+#     for i in range(43):
+#         # 获取赛季链接
+#         url = team_element[j].get_attribute("href") + str(2023 - i) + ".html"
+#         # 将赛季链接加入该球队赛季列表
+#         teams[name].append(url)
+#         time.sleep(10)
+#         print(name, url)
+# # 将字典一次性写入文件
+# with open("team_url_list.txt", "w") as f:
+#     f.write(json.dumps(teams))
 
 
 #  download the data into the csv file ;
-with open("team_url_list.txt", "r") as f:
-    teams = json.loads(f.read())
-files = os.listdir(os.getcwd() + "/team_list")
-for name, url in teams.items():
-    if "{}.csv".format(name) not in files:
-        driver.get(url)
-        teams_content = driver.find_element(
-            By.XPATH, "//table[@id='totals']"
-        ).get_attribute("outerHTML")
-        seasons_frame = pd.read_html(teams_content)[0]
-        seasons_frame.to_csv("team_list/" + name + ".csv")
-        time.sleep(10)
+# with open("team_url_list.txt", "r") as f:
+#     teams = json.loads(f.read())
+# files = os.listdir(os.getcwd() + "/team_list")
+# for name, urls in teams.items():
+#     for url in urls:
+#         year = url.split("/")[-1].split(".")[0]
+#         if "{}.csv".format(name + year) not in files:
+#             try:
+#                 driver.get(url)
+#                 teams_content = driver.find_element(
+#                     By.XPATH, "//table[@id='totals']"
+#                 ).get_attribute("outerHTML")
+#                 seasons_frame = pd.read_html(teams_content)[0]
+#                 year = url.split("/")[-1].split(".")[0]
+#                 seasons_frame.to_csv("team_list/" + name + year + ".csv")
+#                 time.sleep(10)
+#             except Exception as e:
+#                 # 捕获异常并记录错误信息
+#                 print(f"Error processing {name} ({year}): {str(e)}")
 
 
 # with open("player_url_list.txt", "r") as f:
@@ -243,3 +256,75 @@ for name, url in teams.items():
 #         seasons_frame.to_csv("season_list/" + name + ".csv")
 
 # 从文件加载赛季数据的URL  --------------  1
+
+#  leaders' data
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+import json
+import requests
+import pandas as pd
+import os
+
+driver = webdriver.Chrome(ChromeDriverManager().install())
+
+driver.implicitly_wait(10)
+leaders = {}
+# categories = [
+#     "g",
+#     "mp",
+#     "fg",
+#     "fga",
+#     "fg2",
+#     "fg2a",
+#     "fg3",
+#     "fg3a",
+#     "fgx",
+#     "ft",
+#     "fta",
+#     "orb",
+#     "drb",
+#     "trb",
+#     "ast",
+#     "stl",
+#     "blk",
+#     "tov",
+#     "pf",
+#     "pts",
+#     "trp_dbl",
+# ]
+# urls = []
+
+# # 只使用一个循环来遍历各种统计类别
+# for category in categories:
+#     leader_list_url = (
+#         "https://www.basketball-reference.com/leaders/" + category + "_yearly.html"
+#     )
+#     urls.append(leader_list_url)
+#     driver.get(leader_list_url)
+
+#     # 在这里，不需要再次迭代 categories
+#     name = category
+#     url = leader_list_url
+#     leaders[name] = url
+
+#     time.sleep(7)  # 你可能不需要等这么久，除非你知道有需要
+
+# # 将数据保存到文本文件中
+# with open("leader_url_list.txt", "w") as f:
+#     f.write(json.dumps(leaders))
+
+with open("leader_url_list.txt", "r") as f:
+    leaders = json.loads(f.read())
+files = os.listdir(os.getcwd() + "/leader_list")
+for name, url in leaders.items():
+    if "{}.csv".format(name) not in files:
+        driver.get(url)
+        leader_content = driver.find_element(
+            By.XPATH, "//table[@id='leaders']"
+        ).get_attribute("outerHTML")
+        seasons_frame = pd.read_html(leader_content)[0]
+        seasons_frame.to_csv("leader_list/" + name + ".csv")
+        time.sleep(10)
