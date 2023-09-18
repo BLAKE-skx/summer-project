@@ -267,11 +267,37 @@ import json
 import requests
 import pandas as pd
 import os
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
+import pandas as pd
+from selenium import webdriver
+from bs4 import BeautifulSoup
 
 driver = webdriver.Chrome(ChromeDriverManager().install())
 
 driver.implicitly_wait(10)
-leaders = {}
+url = "https://hackastat.eu/en/learn-a-stat-player-efficiency-rating-per/"
+driver.get(url)
+page_source = driver.page_source
+
+# 使用Beautiful Soup解析
+soup = BeautifulSoup(page_source, "html.parser")
+
+# 获取页面上的所有文本（仅作示例，实际需要可能更复杂）
+all_text = soup.stripped_strings
+all_text = " ".join(all_text)
+
+# 打印出所有文本
+print(all_text)
+
+# 保存到文件（可选）
+with open("all_text.txt", "w", encoding="utf-8") as f:
+    f.write(all_text)
+
+# --------------------------------  the details is to download the calculate PER 's file
 # categories = [
 #     "g",
 #     "mp",
@@ -316,15 +342,15 @@ leaders = {}
 # with open("leader_url_list.txt", "w") as f:
 #     f.write(json.dumps(leaders))
 
-with open("leader_url_list.txt", "r") as f:
-    leaders = json.loads(f.read())
-files = os.listdir(os.getcwd() + "/leader_list")
-for name, url in leaders.items():
-    if "{}.csv".format(name) not in files:
-        driver.get(url)
-        leader_content = driver.find_element(
-            By.XPATH, "//table[@id='leaders']"
-        ).get_attribute("outerHTML")
-        seasons_frame = pd.read_html(leader_content)[0]
-        seasons_frame.to_csv("leader_list/" + name + ".csv")
-        time.sleep(10)
+# with open("leader_url_list.txt", "r") as f:
+#     leaders = json.loads(f.read())
+# files = os.listdir(os.getcwd() + "/leader_list")
+# for name, url in leaders.items():
+#     if "{}.csv".format(name) not in files:
+#         driver.get(url)
+#         leader_content = driver.find_element(
+#             By.XPATH, "//table[@id='leaders']"
+#         ).get_attribute("outerHTML")
+#         seasons_frame = pd.read_html(leader_content)[0]
+#         seasons_frame.to_csv("leader_list/" + name + ".csv")
+#         time.sleep(10)
