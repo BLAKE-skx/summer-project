@@ -1,17 +1,17 @@
-# from selenium import webdriver
-# from selenium.webdriver.chrome.service import Service
-# from selenium.webdriver.common.by import By
-# from webdriver_manager.chrome import ChromeDriverManager
-# import time
-# import json
-# import pandas as pd
-# import os
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+import json
+import pandas as pd
+import os
 
-# driver = webdriver.Chrome(ChromeDriverManager().install())
+driver = webdriver.Chrome(ChromeDriverManager().install())
 
-# driver.implicitly_wait(10)
+driver.implicitly_wait(10)
 
-# players = {}
+players = {}
 # for i in range(26):
 #     if i == 23:
 #         continue
@@ -37,18 +37,24 @@
 
 
 #  download the data into the csv file ;
-# with open("player_url_list.txt", "r") as f:
-#     players = json.loads(f.read())
-# files = os.listdir(os.getcwd() + "/player_list")
-# for name, url in players.items():
-#     if "{}.csv".format(name) not in files:
-#         driver.get(url)
-#         seasons_content = driver.find_element(
-#             By.XPATH, "//table[@id='per_game']"
-#         ).get_attribute("outerHTML")
-#         seasons_frame = pd.read_html(seasons_content)[0]
-#         seasons_frame.to_csv("player_list/" + name + ".csv")
-#         time.sleep(10)
+with open("player_url_list.txt", "r") as f:
+    players = json.loads(f.read())
+# files = os.listdir(os.getcwd() + "player_PER_list")
+for name, url in players.items():
+    # if "{}.csv".format(name) not in files:
+    driver.get(url)
+    print(url)
+    seasons_content = driver.find_element(
+        By.XPATH, "//div[@class='stats_pullout']"
+    ).get_attribute("outerHTML")
+    print(seasons_content)
+    seasons_frame = pd.read_html(seasons_content)[0]
+    seasons_frame["Player"] = name
+    # add a new column for player's name
+
+    seasons_frame.to_csv("player_PER_list.csv", index=False)
+    print(seasons_frame)
+    time.sleep(7)
 # with open("player_url_list.txt", "r") as f:
 #     players = json.loads(f.read())
 # # 循环遍历每个球员的姓名和URL
@@ -218,11 +224,19 @@
 #     factor_frame["FTA"] = pd.to_numeric(factor_frame["FTA"], errors="coerce")
 #     factor_frame["ORB"] = pd.to_numeric(factor_frame["ORB"], errors="coerce")
 #     factor_frame["TOV"] = pd.to_numeric(factor_frame["TOV"], errors="coerce")
+#     factor_frame["League_Factor"] = pd.to_numeric(
+#         factor_frame["League_Factor"], errors="coerce"
+#     )
+#     factor_frame["gPER1_atom"] = 2 - (factor_frame["League_Factor"]) * (
+#         factor_frame["AST"] / factor_frame["FG"]
+#     )
+#     factor_frame.to_csv("season_list/" + name + ".csv", index=False)
 #     # 重复上述步骤对其他列进行处理
-
-# factor_frame["Factor"] = (2 / 3) - (
+# factor_frame["League_Factor"] = (2 / 3) - (
 #     0.5 * (factor_frame["AST"] / factor_frame["FG"])
 # ) / (2 * (factor_frame["FG"] / factor_frame["FT"]))
+
+# #  ------------------ CALCULATE THE VOP -----------------
 
 # factor_frame["team_League_VOP"] = factor_frame["PTS"] / (
 #     factor_frame["FGA"]
@@ -230,8 +244,7 @@
 #     - factor_frame["ORB"]
 #     + factor_frame["TOV"]
 # )
-
-# deep thinking for the calculate the gper !
+# # deep thinking for the calculate the gper !
 
 # with open("player_url_list.txt", "r") as f:
 #     players = json.loads(f.read())
@@ -256,46 +269,6 @@
 #         seasons_frame.to_csv("season_list/" + name + ".csv")
 
 # 从文件加载赛季数据的URL  --------------  1
-
-#  leaders' data
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
-import time
-import json
-import requests
-import pandas as pd
-import os
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.chrome import ChromeDriverManager
-import pandas as pd
-from selenium import webdriver
-from bs4 import BeautifulSoup
-
-driver = webdriver.Chrome(ChromeDriverManager().install())
-
-driver.implicitly_wait(10)
-url = "https://hackastat.eu/en/learn-a-stat-player-efficiency-rating-per/"
-driver.get(url)
-page_source = driver.page_source
-
-# 使用Beautiful Soup解析
-soup = BeautifulSoup(page_source, "html.parser")
-
-# 获取页面上的所有文本（仅作示例，实际需要可能更复杂）
-all_text = soup.stripped_strings
-all_text = " ".join(all_text)
-
-# 打印出所有文本
-print(all_text)
-
-# 保存到文件（可选）
-with open("all_text.txt", "w", encoding="utf-8") as f:
-    f.write(all_text)
 
 # --------------------------------  the details is to download the calculate PER 's file
 # categories = [
