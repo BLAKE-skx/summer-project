@@ -7,8 +7,7 @@ import json
 import pandas as pd
 import os
 
-# driver = webdriver.Chrome(ChromeDriverManager().install())
-driver = webdriver.Chrome()
+driver = webdriver.Chrome(ChromeDriverManager().install())
 
 driver.implicitly_wait(10)
 
@@ -20,14 +19,17 @@ players = {}
 #         ord("a") + i
 #     )
 #     driver.get(player_list_url)
-#     player_element = driver.find_elements(By.XPATH, "//th[@data-stat='player']/a")
+#     player_element = driver.find_elements(By.XPATH, "//th[@data-stat='player']//a")
+#     print(player_element)
 #     for j in range(len(player_element)):
 #         name = player_element[j].text
 #         url = player_element[j].get_attribute("href")
+#         print(url)
 #         players[name] = url
-#     time.sleep(30)
+#         print(players)
+#     time.sleep(10)
 
-# with open("player_url_list.txt", "w") as f:
+# with open("player_url_list_strong.txt", "w") as f:
 #     f.write(json.dumps(players))
 
 # print("Current working directory:", os.getcwd())
@@ -38,23 +40,28 @@ players = {}
 
 
 #  download the data into the csv file ;
-with open("player_url_list.txt", "r") as f:
+
+
+with open("player_url_list_strong_1.txt", "r") as f:
     players = json.loads(f.read())
 # files = os.listdir(os.getcwd() + "player_PER_list")
 # 创建球员赛季数据表
-seasons_frame = pd.DataFrame(columns=['Player'])
+seasons_frame = pd.DataFrame(columns=["Player"])
 for name, url in players.items():
     # if "{}.csv".format(name) not in files:
     driver.get(url)
     print(url)
     # 获取表名元素
+    # key = driver.find_elements(
+    #     By.XPATH, "//div[@class='stats_pullout']/div/div/span/strong"
+    # )
     key = driver.find_elements(
         By.XPATH, "//div[@class='stats_pullout']/div/div/span/strong"
     )
+    print("上面是key值")
     # 获取数据元素
-    value = driver.find_elements(
-        By.XPATH, "//div[@class='stats_pullout']/div/div/p"
-    )
+    # value = driver.find_elements(By.XPATH, "//div[@class='stats_pullout']/div/div/p")
+    value = driver.find_elements(By.XPATH, "//div[@class='stats_pullout']/div/div/p")
     # 创建表名列表
     kl = ["Player"]
     # 创建数据列表
@@ -62,16 +69,20 @@ for name, url in players.items():
     # 遍历表名元素
     for i in key:
         # 跳过空字符串
-        if i.text != '':
+        if i.text != "":
             kl.append(i.text)
             # 如果该字段在数据表中未出现，则加入表头
             if i.text not in seasons_frame.columns:
-                seasons_frame.insert(seasons_frame.shape[1], i.text, '')
+                seasons_frame.insert(seasons_frame.shape[1], i.text, "")
     # 遍历数据元素
     for i in value:
-        if i.text != '':
+        if i.text != "":
+            # print(i.text)
             vl.append(i.text)
+    print(len(kl))
+    print(len(vl))
     if len(kl) == len(vl):
+        print("1")
         # 添加一行
         seasons_frame.loc[seasons_frame.shape[0]] = dict(zip(kl, vl))
         # seasons_frame = pd.concat([seasons_frame, ], ignore_index=True)
@@ -81,8 +92,10 @@ for name, url in players.items():
     # seasons_frame["Player"] = name
     # add a new column for player's name
     # print(seasons_frame)
-    time.sleep(7)
-seasons_frame.to_csv("player_PER_list.csv", index=False)
+    time.sleep(6)
+    seasons_frame.to_csv("player_PER_list_2.csv", index=False)
+
+
 # with open("player_url_list.txt", "r") as f:
 #     players = json.loads(f.read())
 # # 循环遍历每个球员的姓名和URL
