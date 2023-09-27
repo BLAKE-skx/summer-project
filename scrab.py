@@ -27,9 +27,8 @@ players = {}
 #         print(url)
 #         players[name] = url
 #         print(players)
-#     time.sleep(10)
-
-# with open("player_url_list_strong.txt", "w") as f:
+#     time.sleep(7)
+# with open("player_url_list_strong_2.txt", "w") as f:
 #     f.write(json.dumps(players))
 
 # print("Current working directory:", os.getcwd())
@@ -40,7 +39,6 @@ players = {}
 
 
 #  download the data into the csv file ;
-
 
 with open("player_url_list_strong_1.txt", "r") as f:
     players = json.loads(f.read())
@@ -79,13 +77,22 @@ for name, url in players.items():
         if i.text != "":
             # print(i.text)
             vl.append(i.text)
-    print(len(kl))
-    print(len(vl))
+    print(vl)
     if len(kl) == len(vl):
         print("1")
         # 添加一行
         seasons_frame.loc[seasons_frame.shape[0]] = dict(zip(kl, vl))
-        # seasons_frame = pd.concat([seasons_frame, ], ignore_index=True)
+    if len(kl) != len(vl):
+        # 初始化一个新的列表来存储提取出来的元素
+        selected_elements = []
+        # 遍历vl_list列表，选择索引为偶数的元素
+        for index, i in enumerate(vl):
+            if index % 2 == 0:
+                selected_elements.append(i)
+        seasons_frame.loc[seasons_frame.shape[0]] = dict(zip(kl, selected_elements))
+    # 现在，selected_elements列表中包含了原来长字符串vl中索引为偶数的子字符串
+
+    # seasons_frame = pd.concat([seasons_frame, ], ignore_index=True)
     print(seasons_frame)
     # print(seasons_content)
     # seasons_frame = pd.read_html(seasons_content)[0]
@@ -93,7 +100,7 @@ for name, url in players.items():
     # add a new column for player's name
     # print(seasons_frame)
     time.sleep(6)
-    seasons_frame.to_csv("player_PER_list_2.csv", index=False)
+    seasons_frame.to_csv("player_PER_list_3.csv", index=False)
 
 
 # with open("player_url_list.txt", "r") as f:
