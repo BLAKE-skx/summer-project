@@ -40,7 +40,7 @@ players = {}
 
 #  download the data into the csv file ;
 
-with open("player_url_list_strong_1.txt", "r") as f:
+with open("player_url_list_strong_final.txt", "r") as f:
     players = json.loads(f.read())
 # files = os.listdir(os.getcwd() + "player_PER_list")
 # 创建球员赛季数据表
@@ -69,6 +69,7 @@ for name, url in players.items():
         # 跳过空字符串
         if i.text != "":
             kl.append(i.text)
+            print(kl)
             # 如果该字段在数据表中未出现，则加入表头
             if i.text not in seasons_frame.columns:
                 seasons_frame.insert(seasons_frame.shape[1], i.text, "")

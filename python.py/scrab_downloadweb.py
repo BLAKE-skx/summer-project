@@ -28,5 +28,5 @@ for i in range(26):
         players[name] = url
         print(players)
     time.sleep(7)
-    with open("player_url_list_strong_2.txt", "w") as f:
+    with open("player_url_list_strong_final.txt", "w") as f:
         f.write(json.dumps(players))
