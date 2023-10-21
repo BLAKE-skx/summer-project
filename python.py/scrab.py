@@ -12,96 +12,92 @@ driver = webdriver.Chrome(ChromeDriverManager().install())
 driver.implicitly_wait(10)
 
 players = {}
-# for i in range(26):
-#     if i == 23:
-#         continue
-#     player_list_url = "https://www.basketball-reference.com/players/" + chr(
-#         ord("a") + i
-#     )
-#     driver.get(player_list_url)
-#     player_element = driver.find_elements(By.XPATH, "//th[@data-stat='player']//a")
-#     print(player_element)
-#     for j in range(len(player_element)):
-#         name = player_element[j].text
-#         url = player_element[j].get_attribute("href")
-#         print(url)
-#         players[name] = url
-#         print(players)
-#     time.sleep(7)
-# with open("player_url_list_strong_2.txt", "w") as f:
-#     f.write(json.dumps(players))
-
-# print("Current working directory:", os.getcwd())
-
-# file_path = "player_url_list.txt"
-# full_file_path = os.path.abspath(file_path)
-# print("Full file path:", full_file_path)
-
+# ------------------download the salaries -----------------
+with open("summer-project\player_url_list_strong_final.txt", "r") as f:
+    players = json.loads(f.read())
+print(os.getcwd())
+files = os.listdir(os.getcwd() + "\summer-project\player_salaries_list")
+for name, urls in players.items():
+    for url in urls:
+        try:
+            if "{}.csv".format(name) not in files:
+                driver.get(url)
+                players_content = driver.find_element(
+                    By.XPATH, "//table[@id='advanced']"
+                ).get_attribute("outerHTML")
+                players_frame = pd.read_html(players_content)[0]
+                players_frame.to_csv(
+                    "summer-project/player_salaries_list/" + name + ".csv"
+                )
+                time.sleep(5)
+        except Exception as e:
+            # 捕获异常并记录错误信息
+            print(f"Error processing {name} : {str(e)}")
 
 #  download the data into the csv file ;
 
-with open("player_url_list_strong_final.txt", "r") as f:
-    players = json.loads(f.read())
-# files = os.listdir(os.getcwd() + "player_PER_list")
-# 创建球员赛季数据表
-seasons_frame = pd.DataFrame(columns=["Player"])
-for name, url in players.items():
-    # if "{}.csv".format(name) not in files:
-    driver.get(url)
-    print(url)
-    # 获取表名元素
-    # key = driver.find_elements(
-    #     By.XPATH, "//div[@class='stats_pullout']/div/div/span/strong"
-    # )
-    key = driver.find_elements(
-        By.XPATH, "//div[@class='stats_pullout']/div/div/span/strong"
-    )
-    print("上面是key值")
-    # 获取数据元素
-    # value = driver.find_elements(By.XPATH, "//div[@class='stats_pullout']/div/div/p")
-    value = driver.find_elements(By.XPATH, "//div[@class='stats_pullout']/div/div/p")
-    # 创建表名列表
-    kl = ["Player"]
-    # 创建数据列表
-    vl = [name]
-    # 遍历表名元素
-    for i in key:
-        # 跳过空字符串
-        if i.text != "":
-            kl.append(i.text)
-            print(kl)
-            # 如果该字段在数据表中未出现，则加入表头
-            if i.text not in seasons_frame.columns:
-                seasons_frame.insert(seasons_frame.shape[1], i.text, "")
-    # 遍历数据元素
-    for i in value:
-        if i.text != "":
-            # print(i.text)
-            vl.append(i.text)
-    print(vl)
-    if len(kl) == len(vl):
-        print("1")
-        # 添加一行
-        seasons_frame.loc[seasons_frame.shape[0]] = dict(zip(kl, vl))
-    if len(kl) != len(vl):
-        # 初始化一个新的列表来存储提取出来的元素
-        selected_elements = []
-        # 遍历vl_list列表，选择索引为偶数的元素
-        for index, i in enumerate(vl):
-            if index % 2 == 0:
-                selected_elements.append(i)
-        seasons_frame.loc[seasons_frame.shape[0]] = dict(zip(kl, selected_elements))
-    # 现在，selected_elements列表中包含了原来长字符串vl中索引为偶数的子字符串
+# with open("player_url_list_strong_final.txt", "r") as f:
+#     players = json.loads(f.read())
+# # files = os.listdir(os.getcwd() + "player_PER_list")
+# # 创建球员赛季数据表
+# seasons_frame = pd.DataFrame(columns=["Player"])
+# for name, url in players.items():
+#     # if "{}.csv".format(name) not in files:
+#     driver.get(url)
+#     print(url)
+#     # 获取表名元素
+#     # key = driver.find_elements(
+#     #     By.XPATH, "//div[@class='stats_pullout']/div/div/span/strong"
+#     # )
+#     key = driver.find_elements(
+#         By.XPATH, "//div[@class='stats_pullout']/div/div/span/strong"
+#     )
+#     print("上面是key值")
+#     # 获取数据元素
+#     # value = driver.find_elements(By.XPATH, "//div[@class='stats_pullout']/div/div/p")
+#     value = driver.find_elements(By.XPATH, "//div[@class='stats_pullout']/div/div/p")
+#     # 创建表名列表
+#     kl = ["Player"]
+#     # 创建数据列表
+#     vl = [name]
+#     # 遍历表名元素
+#     for i in key:
+#         # 跳过空字符串
+#         if i.text != "":
+#             kl.append(i.text)
+#             print(kl)
+#             # 如果该字段在数据表中未出现，则加入表头
+#             if i.text not in seasons_frame.columns:
+#                 seasons_frame.insert(seasons_frame.shape[1], i.text, "")
+#     # 遍历数据元素
+#     for i in value:
+#         if i.text != "":
+#             # print(i.text)
+#             vl.append(i.text)
+#     print(vl)
+#     if len(kl) == len(vl):
+#         print("1")
+#         # 添加一行
+#         seasons_frame.loc[seasons_frame.shape[0]] = dict(zip(kl, vl))
+#     if len(kl) != len(vl):
+#         # 初始化一个新的列表来存储提取出来的元素
+#         selected_elements = []
+#         # 遍历vl_list列表，选择索引为偶数的元素
+#         for index, i in enumerate(vl):
+#             if index % 2 == 0:
+#                 selected_elements.append(i)
+#         seasons_frame.loc[seasons_frame.shape[0]] = dict(zip(kl, selected_elements))
+#     # 现在，selected_elements列表中包含了原来长字符串vl中索引为偶数的子字符串
 
-    # seasons_frame = pd.concat([seasons_frame, ], ignore_index=True)
-    print(seasons_frame)
-    # print(seasons_content)
-    # seasons_frame = pd.read_html(seasons_content)[0]
-    # seasons_frame["Player"] = name
-    # add a new column for player's name
-    # print(seasons_frame)
-    time.sleep(6)
-    seasons_frame.to_csv("player_PER_list_3.csv", index=False)
+#     # seasons_frame = pd.concat([seasons_frame, ], ignore_index=True)
+#     print(seasons_frame)
+#     # print(seasons_content)
+#     # seasons_frame = pd.read_html(seasons_content)[0]
+#     # seasons_frame["Player"] = name
+#     # add a new column for player's name
+#     # print(seasons_frame)
+#     time.sleep(6)
+#     seasons_frame.to_csv("player_PER_list_3.csv", index=False)
 
 
 # with open("player_url_list.txt", "r") as f:

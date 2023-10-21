@@ -1,4 +1,4 @@
-Player Name,Data
+Player,championship
 Kareem Abdul-Jabbar,"Hall of Fame
 19x All Star
 2x Scoring Champ
@@ -254,8 +254,8 @@ Mookie Blaylock,"1x All Star
 Eric Bledsoe,"2010-11 All-Rookie
 2x All-Defensive"
 John Block,1x All Star
-Bogdan Bogdanović,2017-18 All-Rookie
-Bojan Bogdanović,2014-15 All-Rookie
+Bogdan Bogdanovi?,2017-18 All-Rookie
+Bojan Bogdanovi?,2014-15 All-Rookie
 Andrew Bogut,"2010-11 BLK Champ
 2015 NBA Champ
 2009-10 All-NBA
@@ -424,7 +424,7 @@ Marcus Camby,"4x BLK Champ
 2006-07 Def. POY"
 Elden Campbell,2004 NBA Champ
 Tony Campbell,1988 NBA Champ
-Vlatko Čančar,2023 NBA Champ
+Vlatko ?an?ar,2023 NBA Champ
 Larry Cannon,1970-71 All-ABA
 Clint Capela,2020-21 TRB Champ
 Brian Cardinal,2011 NBA Champ
@@ -696,14 +696,14 @@ Vlade Divac,"Hall of Fame
 Michael Doleac,"2006 NBA Champ
 1998-99 All-Rookie"
 James Donaldson,1x All Star
-Luka Dončić,"4x All Star
+Luka Don?i?,"4x All Star
 4x All-NBA
 2018-19 All-Rookie
 2018-19 ROY"
 Ayo Dosunmu,2021-22 All-Rookie
 Sherman Douglas,1989-90 All-Rookie
 Steve Downing,1974 NBA Champ
-Goran Dragić,"1x All Star
+Goran Dragi?,"1x All Star
 2013-14 All-NBA
 2013-14 Most Improved"
 John Drew,"2x All Star
@@ -821,7 +821,7 @@ Bob Feerick,3x All-BAA
 Ray Felix,"1x All Star
 1953-54 ROY"
 Raymond Felton,2005-06 All-Rookie
-Rudy Fernández,2008-09 All-Rookie
+Rudy Fern��ndez,2008-09 All-Rookie
 Eric Fernsten,1981 NBA Champ
 Yogi Ferrell,2016-17 All-Rookie
 Arnie Ferrin,2x BAA/NBA Champ
@@ -960,13 +960,13 @@ Artis Gilmore,"Hall of Fame
 5x All-Defensive
 1973-74 AS MVP
 ABA All-Time Team"
-Manu Ginóbili,"Hall of Fame
+Manu Gin��bili,"Hall of Fame
 2x All Star
 4x NBA Champ
 2x All-NBA
 2002-03 All-Rookie
 2007-08 Sixth Man"
-Gordan Giriček,2002-03 All-Rookie
+Gordan Giri?ek,2002-03 All-Rookie
 Rudy Gobert,"3x All Star
 2021-22 TRB Champ
 2016-17 BLK Champ
@@ -1150,7 +1150,7 @@ Cedric Henderson,1997-98 All-Rookie
 Tom Henderson,1978 NBA Champ
 Larry Hennessy,1956 NBA Champ
 Kleggie Hermsen,1948 BAA Champ
-Willy Hernangómez,2016-17 All-Rookie
+Willy Hernang��mez,2016-17 All-Rookie
 Carl Herrera,2x NBA Champ
 Walter Herrmann,2006-07 All-Rookie
 Tyler Herro,"2019-20 All-Rookie
@@ -1163,7 +1163,7 @@ Roy Hibbert,"2x All Star
 2013-14 All-Defensive"
 Buddy Hield,2016-17 All-Rookie
 Wayne Hightower,1x All Star
-Nenê,2002-03 All-Rookie
+Nen��,2002-03 All-Rookie
 Grant Hill,"Hall of Fame
 7x All Star
 5x All-NBA
@@ -1396,7 +1396,7 @@ Neil Johnston,"Hall of Fame
 1954-55 TRB Champ
 1956 NBA Champ
 5x All-NBA"
-Nikola Jokić,"5x All Star
+Nikola Joki?,"5x All Star
 2023 NBA Champ
 5x All-NBA
 2015-16 All-Rookie
@@ -1520,9 +1520,9 @@ Travis Knight,"2000 NBA Champ
 Don Kojis,2x All Star
 Howard Komives,1964-65 All-Rookie
 Kyle Korver,1x All Star
-Nenad Krstić,2004-05 All-Rookie
+Nenad Krsti?,2004-05 All-Rookie
 Steve Kuberski,2x NBA Champ
-Toni Kukoč,"Hall of Fame
+Toni Kuko?,"Hall of Fame
 3x NBA Champ
 1993-94 All-Rookie
 1995-96 Sixth Man"
@@ -1531,7 +1531,7 @@ Mitch Kupchak,"2x NBA Champ
 1976-77 All-Rookie"
 Kyle Kuzma,"2020 NBA Champ
 2017-18 All-Rookie"
-Ognjen Kuzmić,2015 NBA Champ
+Ognjen Kuzmi?,2015 NBA Champ
 Tom LaGarde,1979 NBA Champ
 Rusty LaRue,1998 NBA Champ
 Rudy LaRusso,"5x All Star
@@ -1689,7 +1689,7 @@ NBA 75th Anniv. Team"
 Stephon Marbury,"2x All Star
 2x All-NBA
 1996-97 All-Rookie"
-Šarūnas Marčiulionis,Hall of Fame
+?ar��nas Mar?iulionis,Hall of Fame
 Jack Marin,"2x All Star
 1966-67 All-Rookie"
 Shawn Marion,"4x All Star
@@ -1827,7 +1827,7 @@ Vern Mikkelsen,"Hall of Fame
 4x All-NBA"
 Darius Miles,2000-01 All-Rookie
 Eddie Miles,1x All Star
-Darko Miličić,2004 NBA Champ
+Darko Mili?i?,2004 NBA Champ
 Andre Miller,"2001-02 AST Champ
 1999-00 All-Rookie"
 Brad Miller,2x All Star
@@ -1850,7 +1850,7 @@ Yao Ming,"Hall of Fame
 8x All Star
 5x All-NBA
 2002-03 All-Rookie"
-Nikola Mirotić,2014-15 All-Rookie
+Nikola Miroti?,2014-15 All-Rookie
 Donovan Mitchell,"4x All Star
 2022-23 All-NBA
 2017-18 All-Rookie"
@@ -1912,7 +1912,7 @@ Chris Mullin,"Hall of Fame
 4x All-NBA"
 Jeff Mullins,"3x All Star
 1975 NBA Champ"
-Gheorghe Mureșan,1995-96 Most Improved
+Gheorghe Mure?an,1995-96 Most Improved
 Calvin Murphy,"Hall of Fame
 1x All Star
 1970-71 All-Rookie"
@@ -1958,7 +1958,7 @@ Don Nelson,"Hall of Fame
 Jameer Nelson,"1x All Star
 2004-05 All-Rookie"
 Dick Nemelka,1971 ABA Champ
-Rasho Nesterović,2005 NBA Champ
+Rasho Nesterovi?,2005 NBA Champ
 Bob Netolicky,"4x All Star
 2x ABA Champ
 1967-68 All-Rookie
@@ -1986,7 +1986,7 @@ Dirk Nowitzki,"14x All Star
 2010-11 Finals MVP
 NBA 75th Anniv. Team"
 Kendrick Nunn,2019-20 All-Rookie
-Jusuf Nurkić,2014-15 All-Rookie
+Jusuf Nurki?,2014-15 All-Rookie
 Jordan Nwora,2021 NBA Champ
 Jim O'Brien,1974 ABA Champ
 Jermaine O'Neal,"6x All Star
@@ -2095,9 +2095,9 @@ Morris Peterson,2000-01 All-Rookie
 Geoff Petrie,"2x All Star
 1970-71 All-Rookie
 1970-71 ROY"
-Dražen Petrović,"Hall of Fame
+Dra?en Petrovi?,"Hall of Fame
 1992-93 All-NBA"
-Richard Petruška,1994 NBA Champ
+Richard Petru?ka,1994 NBA Champ
 Bob Pettit,"Hall of Fame
 11x All Star
 2x Scoring Champ
@@ -2147,7 +2147,7 @@ Otto Porter Jr.,2022 NBA Champ
 Terry Porter,2x All Star
 Willie Porter,1968 ABA Champ
 Bobby Portis,2021 NBA Champ
-Kristaps Porziņģis,"1x All Star
+Kristaps Porzi??is,"1x All Star
 2015-16 All-Rookie"
 James Posey,"2x NBA Champ
 1999-00 All-Rookie"
@@ -2168,7 +2168,7 @@ Gabe Pruitt,2008 NBA Champ
 Immanuel Quickley,2020-21 All-Rookie
 Dino Radja,"Hall of Fame
 1993-94 All-Rookie"
-Vladimir Radmanović,2001-02 All-Rookie
+Vladimir Radmanovi?,2001-02 All-Rookie
 Kurt Rambis,4x NBA Champ
 Frank Ramsey,"Hall of Fame
 7x NBA Champ"
@@ -2184,7 +2184,7 @@ Theo Ratliff,"1x All Star
 2x All-Defensive"
 Clifford Ray,"1975 NBA Champ
 1971-72 All-Rookie"
-Željko Rebrača,2001-02 All-Rookie
+?eljko Rebra?a,2001-02 All-Rookie
 Michael Redd,"1x All Star
 2003-04 All-NBA"
 Willis Reed,"Hall of Fame
@@ -2364,7 +2364,7 @@ Ralph Sampson,"Hall of Fame
 Tom Sanders,"Hall of Fame
 8x NBA Champ
 1968-69 All-Defensive"
-Dario Šarić,2016-17 All-Rookie
+Dario ?ari?,2016-17 All-Rookie
 Pep Saul,4x NBA Champ
 Woody Sauldsberry,"1x All Star
 1966 NBA Champ
@@ -2535,7 +2535,7 @@ John Stockton,"Hall of Fame
 5x All-Defensive
 1992-93 AS MVP
 NBA 75th Anniv. Team"
-Peja Stojaković,"3x All Star
+Peja Stojakovi?,"3x All Star
 2011 NBA Champ
 2003-04 All-NBA"
 Maurice Stokes,"Hall of Fame
@@ -2559,7 +2559,7 @@ Bennie Swain,1959 NBA Champ
 Dan Swartz,1963 NBA Champ
 Wally Szczerbiak,"1x All Star
 1999-00 All-Rookie"
-Žan Tabak,1995 NBA Champ
+?an Tabak,1995 NBA Champ
 Roy Tarpley,"1986-87 All-Rookie
 1987-88 Sixth Man"
 Levern Tart,2x All Star
@@ -2660,7 +2660,7 @@ Jim Tucker,1955 NBA Champ
 P.J. Tucker,2021 NBA Champ
 Trent Tucker,1993 NBA Champ
 Ronny Turiaf,2012 NBA Champ
-Hedo Türkoğlu,"2000-01 All-Rookie
+Hedo T��rko?lu,"2000-01 All-Rookie
 2007-08 Most Improved"
 Myles Turner,"2x BLK Champ
 2015-16 All-Rookie"
@@ -2682,7 +2682,7 @@ Wes Unseld,"Hall of Fame
 1977-78 Finals MVP
 NBA 75th Anniv. Team"
 Steve Vacendak,1968 ABA Champ
-Jonas Valančiūnas,2012-13 All-Rookie
+Jonas Valan?i��nas,2012-13 All-Rookie
 Dick Van Arsdale,"3x All Star
 1965-66 All-Rookie
 1973-74 All-Defensive"
@@ -2698,7 +2698,7 @@ Norm Van Lier,"3x All Star
 Fred VanVleet,"1x All Star
 2019 NBA Champ"
 Kiki Vandeweghe,2x All Star
-Anderson Varejão,2009-10 All-Defensive
+Anderson Varej?o,2009-10 All-Defensive
 Jarvis Varnado,2013 NBA Champ
 Chico Vaughn,"1x All Star
 1968 ABA Champ"
@@ -2709,8 +2709,8 @@ Charlie Villanueva,2005-06 All-Rookie
 Jay Vincent,1981-82 All-Rookie
 Sam Vincent,1986 NBA Champ
 Danny Vranes,1984-85 All-Defensive
-Nikola Vučević,2x All Star
-Sasha Vujačić,2x NBA Champ
+Nikola Vu?evi?,2x All Star
+Sasha Vuja?i?,2x NBA Champ
 Dwyane Wade,"13x All Star
 2008-09 Scoring Champ
 3x NBA Champ
