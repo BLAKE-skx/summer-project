@@ -11,22 +11,21 @@ driver = webdriver.Chrome(ChromeDriverManager().install())
 
 driver.implicitly_wait(10)
 players = {}
-with open("player_url_list_strong_final.txt", "r") as f:
+with open("summer-project\player_url_list_strong_final.txt", "r") as f:
     players = json.loads(f.read())
-files = os.listdir(os.getcwd())
-for name, url in players.items():
-    try:
-        driver.get(url)
-        players_content = driver.find_element(
-            By.XPATH, "//table[@id='all_salaries']"
-        ).get_attribute("outerHTML")
-        players_frame = pd.read_html(players_content)[0]
-        players_frame.to_csv("players_basicinfo_test.csv")
-        time.sleep(5)
-    except Exception as e:
-        # 捕获异常并记录错误信息
-        print(f"Error processing {name} : {str(e)}")
 
+files = os.listdir(os.getcwd() + "\summer-project\player_list")
+for name, url in players.items():
+    if "{}.csv".format(name) not in files:
+        driver.get(url)
+        seasons_content = driver.find_element(
+            By.XPATH, "//table[@id='per_game']"
+        ).get_attribute("outerHTML")
+        seasons_frame = pd.read_html(seasons_content)[0]
+        seasons_frame.to_csv("summer-project\player_list/" + name + ".csv")
+        time.sleep(10)
+    else:
+        print("download is OK")
 #  download the height and weight :
 
 # from selenium import webdriver
