@@ -408,7 +408,7 @@
 #             df.to_csv(filepath, index=False)
 
 # print("所有文件处理完毕!")
-#  将杂乱的球员分类
+#  -------------------------------将杂乱的球员分类--------------------
 # import os
 # import pandas as pd
 
@@ -426,8 +426,8 @@
 #     df = pd.read_csv(filepath)
 
 #     # 假设球队信息存储在'Tm'列中
-#     # team_name = df["Tm"].iloc[0]
-#     team_name = df["Tm"].iloc[-1]
+#     team_name = df["Tm"].iloc[0]
+#     # team_name = df["Tm"].iloc[-1]
 #     # 为每个球队创建一个新的文件夹（如果还不存在的话）
 #     team_dir = os.path.join(source_dir, team_name)
 #     if not os.path.exists(team_dir):
@@ -1002,45 +1002,45 @@
 # ------------------------------- calculate the avg_HGS value ----------------------------
 
 
-import os
-import pandas as pd
+# import os
+# import pandas as pd
 
-root_dir = "summer-project/players_season"
-
-
-def update_hgs_per_shared_player(file_path):
-    df = pd.read_csv(file_path)
-
-    # 检查文件中是否包含 'HGS' 和 'Total Shared Players' 列
-    if "HGS" in df.columns and "Total Shared Players" in df.columns:
-        # 计算新的列的值
-        df["avg_HGS"] = df["HGS"] / df["Total Shared Players"]
-
-        # 避免由于除数为0而导致的无穷大值
-        df["avg_HGS"].replace([float("inf"), -float("inf")], 0, inplace=True)
-
-        # 保存更新后的数据到文件
-        df.to_csv(file_path, index=False)
-        print(f"Updated file {file_path} with 'avg_HGS_Per_Shared_Player' values.")
-    else:
-        print(
-            f"Columns 'HGS' or 'Total Shared Players' missing in file: {file_path}. Skipping this file."
-        )
+# root_dir = "summer-project/players_season"
 
 
-# 遍历所有的球队文件夹
-for team_folder in os.listdir(root_dir):
-    team_path = os.path.join(root_dir, team_folder)
+# def update_hgs_per_shared_player(file_path):
+#     df = pd.read_csv(file_path)
 
-    # 确保这是一个文件夹
-    if os.path.isdir(team_path):
-        # 遍历文件夹下的所有球员csv文件
-        for player_file in os.listdir(team_path):
-            if player_file.endswith(".csv"):
-                file_path = os.path.join(team_path, player_file)
-                update_hgs_per_shared_player(file_path)
+#     # 检查文件中是否包含 'HGS' 和 'Total Shared Players' 列
+#     if "HGS" in df.columns and "Total Shared Players" in df.columns:
+#         # 计算新的列的值
+#         df["avg_HGS"] = df["HGS"] / df["Total Shared Players"]
 
-print("Processing finished.")
+#         # 避免由于除数为0而导致的无穷大值
+#         df["avg_HGS"].replace([float("inf"), -float("inf")], 0, inplace=True)
+
+#         # 保存更新后的数据到文件
+#         df.to_csv(file_path, index=False)
+#         print(f"Updated file {file_path} with 'avg_HGS_Per_Shared_Player' values.")
+#     else:
+#         print(
+#             f"Columns 'HGS' or 'Total Shared Players' missing in file: {file_path}. Skipping this file."
+#         )
+
+
+# # 遍历所有的球队文件夹
+# for team_folder in os.listdir(root_dir):
+#     team_path = os.path.join(root_dir, team_folder)
+
+#     # 确保这是一个文件夹
+#     if os.path.isdir(team_path):
+#         # 遍历文件夹下的所有球员csv文件
+#         for player_file in os.listdir(team_path):
+#             if player_file.endswith(".csv"):
+#                 file_path = os.path.join(team_path, player_file)
+#                 update_hgs_per_shared_player(file_path)
+
+# print("Processing finished.")
 
 # --------------------------- Delete the value that we do not need (Share with name colunm is 0 ) ---------
 
@@ -1083,3 +1083,1024 @@ print("Processing finished.")
 #                 remove_zero_shared_games_columns(file_path)
 
 # print("Processing finished.")
+
+#  --------------- add PER WS BPM O/DPM value to player's csv file --------
+
+# import os
+# import pandas as pd
+
+# root_dir = "summer-project/players_season"
+# advanced_value_dir = "summer-project/players_advanced_value_list"
+
+
+# def add_advanced_values(player_path, advanced_value_path):
+#     player_df = pd.read_csv(player_path)
+
+#     # 只读取Season列为2022-23的高级数据
+#     advanced_df = pd.read_csv(advanced_value_path)
+#     advanced_df = advanced_df[advanced_df["Season"] == "2022-23"]
+
+#     # 检查是否存在所需的数据
+#     if not advanced_df.empty:
+#         for column in ["TS%", "3PAr", "FTr", "VORP", "OWS"]:
+#             if column in advanced_df.columns:
+#                 # 创建一个新列并添加数据
+#                 player_df[column] = advanced_df[column].values[0]
+#             else:
+#                 player_df[column] = None
+
+#         # 保存更新后的球员文件
+#         player_df.to_csv(player_path, index=False)
+#         print(f"Updated file {player_path} with advanced values.")
+#     else:
+#         print(f"No advanced values for season 2022-23 found in {advanced_value_path}.")
+
+
+# # 遍历每个球队文件夹
+# for team_folder in os.listdir(root_dir):
+#     team_path = os.path.join(root_dir, team_folder)
+
+#     if os.path.isdir(team_path):
+#         for player_file in os.listdir(team_path):
+#             if player_file.endswith(".csv"):
+#                 player_name = player_file.rstrip(".csv")  # 获取球员名字
+#                 advanced_value_file_path = os.path.join(
+#                     advanced_value_dir, player_name + ".csv"
+#                 )
+
+#                 if os.path.exists(advanced_value_file_path):
+#                     player_path = os.path.join(team_path, player_file)
+#                     add_advanced_values(player_path, advanced_value_file_path)
+#                 else:
+#                     print(f"Advanced values for {player_name} not found.")
+
+# print("Processing finished.")
+
+#  ------------------ calculate the Co_Points_Share value ----------------------
+
+# import os
+# import pandas as pd
+
+# root_dir = "summer-project/team_list"
+
+
+# def add_co_points_share(file_path):
+#     df = pd.read_csv(file_path)
+
+#     # 检查是否存在'PTS'列
+#     if "PTS" in df.columns:
+#         total_points = df["PTS"].iloc[-1]
+#         if total_points != 0:
+#             df["Co_Points_Share"] = df["PTS"] / total_points
+#         else:
+#             df["Co_Points_Share"] = 0
+#         df.to_csv(file_path, index=False)
+#         print(f"Updated file {file_path} with Co_Points_Share values.")
+#     else:
+#         print(f"'PTS' column not found in {file_path}. Skipping this file.")
+
+
+# # 遍历文件夹中的文件
+# for file in os.listdir(root_dir):
+#     if file.endswith("2023.csv"):
+#         file_path = os.path.join(root_dir, file)
+#         add_co_points_share(file_path)
+
+# print("Processing finished.")
+
+#  --------------------------------- calculate the Co_Points_Share value ----------------
+
+
+# import os
+# import pandas as pd
+
+# # 1. 从summer-project\team_list中读取2023年的每支球队的CSV文件。
+# team_list_dir = "summer-project/team_list"
+# players_season_dir = "summer-project/players_season"
+# co_points_share_dict = {}
+
+# # 遍历team_list目录下的所有2023年的CSV文件
+# for file in os.listdir(team_list_dir):
+#     if "2023.csv" in file:
+#         file_path = os.path.join(team_list_dir, file)
+#         df = pd.read_csv(file_path)
+#         # 更新co_points_share_dict
+#         co_points_share_dict.update(df.set_index("Player")["Co_Points_Share"].to_dict())
+
+# # 2. 遍历summer-project\players_season下的每个球队文件夹并为每位球员更新其Co_Points_Share的值。
+# for team_folder in os.listdir(players_season_dir):
+#     team_path = os.path.join(players_season_dir, team_folder)
+#     if os.path.isdir(team_path):
+#         # 遍历球队文件夹下的每个球员csv文件
+#         for player_file in os.listdir(team_path):
+#             if player_file.endswith(".csv"):
+#                 player_name = player_file.replace(".csv", "")
+#                 file_path = os.path.join(team_path, player_file)
+#                 player_data = pd.read_csv(file_path)
+
+#                 # 更新Co_Points_Share列
+#                 player_data["Co_Points_Share"] = co_points_share_dict.get(
+#                     player_name, None
+#                 )
+#                 player_data.to_csv(file_path, index=False)
+
+# print("Update complete!")
+
+
+#  ----------- delete the unname column & pre chu li  & delete the Rk row -----
+
+# import os
+# import pandas as pd
+# from sklearn.preprocessing import OneHotEncoder, StandardScaler
+# from sklearn.feature_selection import VarianceThreshold
+
+# # 定义你的项目文件夹路径
+# project_folder = "summer-project/players_season"
+
+# # 遍历项目文件夹中的所有球队文件夹
+# for team_folder in os.listdir(project_folder):
+#     team_path = os.path.join(project_folder, team_folder)
+
+#     # 确保路径是一个文件夹
+#     if os.path.isdir(team_path):
+#         # 遍历球队文件夹中的所有CSV文件
+#         for file_name in os.listdir(team_path):
+#             if file_name.endswith(".csv"):
+#                 file_path = os.path.join(team_path, file_name)
+
+#                 # 读取CSV文件
+#                 df = pd.read_csv(file_path)
+
+#                 # 删除所有含'Unnamed'的列
+#                 # df = df.loc[:, ~df.columns.str.contains("^Unnamed")]
+
+#                 # 数据清洗：处理或删除特殊的非数值记录
+#                 # df.replace({"Did Not Dress": None, "Inactive": None}, inplace=True)
+
+#                 # 将非数字的Rk值转换为NaN，然后删除这些行
+#                 df["Rk"] = pd.to_numeric(df["Rk"], errors="coerce")
+#                 df = df.dropna(subset=["Rk"])
+
+#                 # 保存更改后的CSV文件
+#                 df.to_csv(file_path, index=False)
+
+# print("所有含'Unnamed'的列已删除。")
+
+#   ------------- - -------  change the time value is 0 -----------------
+# import os
+# import pandas as pd
+
+
+# def simplify_time(time_str):
+#     # 如果时间字符串存在且包含两个冒号，我们假设它是分钟:秒:毫秒的格式
+#     if isinstance(time_str, str) and time_str.count(":") == 2:
+#         # 移除最后一个冒号和毫秒部分
+#         return time_str.rsplit(":", 1)[0]
+#     else:
+#         # 如果不包含两个冒号，返回原始字符串
+#         return time_str
+
+
+# def convert_time_to_mins(time_str):
+#     # Ensure that time_str is a string, if not, return 0.0 assuming it represents no play time
+#     if not isinstance(time_str, str):
+#         return 0.0
+
+#     # Now time format should be minutes:seconds
+#     if ":" in time_str:
+#         parts = time_str.split(":")
+#         total_mins = int(parts[0]) + int(parts[1]) / 60.0
+#         return total_mins
+#     elif "Did Not Play" in time_str or "DNP" in time_str:
+#         return 0.0
+#     else:
+#         # If the data is not in the expected format, return 0.0 to indicate no play time
+#         # You might want to log this case as it's unexpected
+#         return 0.0
+
+
+# # 设置项目文件夹路径
+# season_folder = "summer-project/players_season"
+
+# # 遍历每个球队的文件夹
+# for team_folder in os.listdir(season_folder):
+#     team_path = os.path.join(season_folder, team_folder)
+
+#     # 只处理文件夹
+#     if os.path.isdir(team_path):
+#         # 遍历球队文件夹下的所有CSV文件
+#         for file in os.listdir(team_path):
+#             if file.endswith(".csv"):
+#                 file_path = os.path.join(team_path, file)
+
+#                 # 读取CSV文件
+#                 df = pd.read_csv(file_path)
+
+#                 # 检查'MP'列是否存在
+#                 if "MP" in df.columns:
+#                     # 先简化时间格式，去除毫秒部分
+#                     df["MP"] = df["MP"].apply(simplify_time)
+#                     # 将简化后的时间转换为分钟
+#                     df["MP"] = df["MP"].apply(convert_time_to_mins)
+#                     # 保存更改回CSV文件
+#                     df.to_csv(file_path, index=False)
+#                 else:
+#                     print(f"没有找到'MP'列在文件中： {file_path}")
+
+# print("所有文件已更新.")
+# import os
+# import pandas as pd
+# import torch
+
+
+# # 设置项目文件夹路径
+# original_season_folder = "summer-project/players_season"
+# copy_season_folder = "summer-project\players_season——copy"
+
+# # 遍历每个球队的文件夹
+# for team_folder in os.listdir(original_season_folder):
+#     team_path = os.path.join(original_season_folder, team_folder)
+
+#     # 只处理文件夹
+#     if os.path.isdir(team_path):
+#         # 遍历球队文件夹下的所有CSV文件
+#         for file in os.listdir(team_path):
+#             if file.endswith(".csv"):
+#                 original_csv_path = os.path.join(team_path, file)
+#                 copy_csv_path = os.path.join(copy_season_folder, team_folder, file)
+
+#                 # 确保复制的CSV文件存在
+#                 if os.path.exists(copy_csv_path):
+#                     # 读取原始和复制的CSV文件
+#                     original_df = pd.read_csv(original_csv_path)
+#                     copy_df = pd.read_csv(copy_csv_path)
+
+#                     # 检查是否有足够的列
+#                     if copy_df.shape[1] >= 9:
+#                         # 获取第三列的数据
+#                         third_column = copy_df.iloc[:, 8]
+#                         # 添加到原始数据框
+#                         original_df["Result"] = third_column
+#                         # 保存更改回CSV文件
+#                         original_df.to_csv(original_csv_path, index=False)
+#                         print(f"成功添加第三列到： {original_csv_path}")
+#                     else:
+#                         print(f"复制的文件没有足够的列： {copy_csv_path}")
+#                 else:
+#                     print(f"复制的文件不存在： {copy_csv_path}")
+
+# print("所有文件已尝试更新.")
+
+
+# import os
+# import pandas as pd
+
+# team_folders = "summer-project/players_season"
+# teams = os.listdir(team_folders)
+
+# for team in teams:
+#     team_path = os.path.join(team_folders, team)
+#     team_data = []
+
+#     player_files = [f for f in os.listdir(team_path) if f.endswith(".csv")]
+#     if not player_files:
+#         print(f"No CSV files found in directory: {team_path}")
+#         continue
+
+#     for player_file in player_files:
+#         player_path = os.path.join(team_path, player_file)
+#         # 获取球员名字，假设文件名格式为 "player_name.csv"
+#         player_name = player_file.split(".")[0]
+#         if os.stat(player_path).st_size > 0:  # Check if file is not empty
+#             try:
+#                 player_df = pd.read_csv(player_path, encoding="ISO-8859-1")
+#                 player_df["player_name"] = player_name  # 添加球员名字列
+#                 team_data.append(player_df)
+#             except Exception as e:
+#                 print(f"Error reading {player_path}: {e}")
+#         else:
+#             print(f"Skipping empty file: {player_path}")
+
+#     if not team_data:
+#         print(f"No data to concatenate for team: {team}")
+#     else:
+#         team_df = pd.concat(team_data, ignore_index=True)
+#         # ...后续处理和保存team_df
+#         team_df.to_csv(f"{team}_season.csv", index=False)  # 保存球队赛季数据
+
+# import os
+# import pandas as pd
+
+# # 设置包含所有球队比赛数据的文件夹路径
+# teams_folder = "summer-project\predict_0"
+
+# # 获取所有球队数据文件的路径
+# team_files = [
+#     os.path.join(teams_folder, f)
+#     for f in os.listdir(teams_folder)
+#     if f.endswith(".csv")
+# ]
+
+# # 遍历每个球队的文件
+# for file_path in team_files:
+#     # 读取球队数据文件
+#     try:
+#         team_data = pd.read_csv(file_path)
+#     except pd.errors.EmptyDataError:
+#         print(f"No data in file {file_path}, skipping.")
+#         continue
+
+#     # 确保日期列存在
+#     if "Date" not in team_data.columns:
+#         print(f"No 'Date' column in file {file_path}, skipping.")
+#         continue
+
+#     # 将日期列转换为 datetime 类型
+#     team_data["Date"] = pd.to_datetime(
+#         team_data["Date"], format="%Y/%m/%d", errors="coerce"
+#     )
+
+#     # 检查是否有转换错误
+#     if team_data["Date"].isnull().any():
+#         print(f"Date conversion error in file {file_path}, skipping.")
+#         continue
+
+#     # 按日期列对数据进行排序
+#     team_data.sort_values(by="Date", inplace=True)
+
+#     # 重置索引
+#     team_data.reset_index(drop=True, inplace=True)
+
+#     # 保存排序后的数据回原文件
+#     team_data.to_csv(file_path, index=False)
+
+#     print(f"Processed and saved sorted data for file {file_path}")
+
+
+#  ------------------- 分类球员按照比赛场次 -------------------------
+
+
+# import os
+# import pandas as pd
+
+# # 设置包含所有球队比赛数据的文件夹路径
+# teams_folder = "summer-project/predict_0"
+
+# # 获取所有球队数据文件的路径
+# team_files = [
+#     os.path.join(teams_folder, f)
+#     for f in os.listdir(teams_folder)
+#     if f.endswith(".csv")
+# ]
+
+# # 遍历每个球队的文件
+# for file_path in team_files:
+#     # 从文件名中提取球队缩写
+#     team_abbr = os.path.basename(file_path).split("_")[0]
+
+#     # 读取球队数据文件
+#     try:
+#         team_data = pd.read_csv(file_path)
+#     except pd.errors.EmptyDataError:
+#         print(f"No data in file {file_path}, skipping.")
+#         continue
+
+#     # 确保'Tm'列存在
+#     if "Tm" not in team_data.columns:
+#         print(f"No 'Tm' column in file {file_path}, skipping.")
+#         continue
+
+#     # 筛选出'Tm'列与球队缩写匹配的行
+#     team_data = team_data[team_data["Tm"] == team_abbr]
+
+#     # 如果没有匹配的行，就跳过这个文件
+#     if team_data.empty:
+#         print(f"No matching 'Tm' rows in file {file_path}, skipping.")
+#         continue
+
+#     # 按日期列对数据进行排序
+#     team_data.sort_values(by="Date", inplace=True)
+
+#     # 重置索引
+#     team_data.reset_index(drop=True, inplace=True)
+
+#     # 保存过滤和排序后的数据回原文件
+#     team_data.to_csv(file_path, index=False)
+
+#     print(f"Processed and saved filtered data for file {file_path}")
+
+#  --------------- 把相同场比赛的场次，单独成为一行，所有列名都相同，当作球队本场的比赛数据，数据即为球员数据的加和。 ---------- 不用
+
+
+# import os
+# import pandas as pd
+
+# # 设置包含所有球队比赛数据的文件夹路径
+# teams_folder = "summer-project/predict_0"
+
+# # 获取所有球队数据文件的路径
+# team_files = [
+#     os.path.join(teams_folder, f)
+#     for f in os.listdir(teams_folder)
+#     if f.endswith(".csv")
+# ]
+
+# # 定义要加和的列
+# sum_columns = [
+#     "MP",
+#     "FG",
+#     "FGA",
+#     "FG%",
+#     "3P",
+#     "3PA",
+#     "3P%",
+#     "FT",
+#     "FTA",
+#     "FT%",
+#     "ORB",
+#     "DRB",
+#     "TRB",
+#     "AST",
+#     "STL",
+#     "BLK",
+#     "TOV",
+#     "PF",
+#     "PTS",
+#     "GmSc",
+#     "+/-",
+#     "2PA",
+#     "2P",
+#     "2P%",
+#     "CO_EFF",
+#     "EFF",
+#     "avg_EFF",
+#     "CO_HGS",
+#     "HGS",
+#     "avg_HGS",
+#     "PER",
+#     "WS",
+#     "BPM",
+#     "OBPM",
+#     "DBPM",
+#     "TS%",
+#     "3PAr",
+#     "FTr",
+#     "VORP",
+#     "OWS",
+# ]
+
+
+# def convert_to_numeric(df, columns):
+#     for column in columns:
+#         df[column] = pd.to_numeric(df[column], errors="coerce").fillna(0)
+#     return df
+
+
+# # 遍历每个球队的文件
+# for file_path in team_files:
+#     # 从文件名中提取球队缩写
+#     team_abbr = os.path.basename(file_path).split("_")[0]
+
+#     # 读取球队数据文件
+#     try:
+#         team_data = pd.read_csv(file_path, encoding="ISO-8859-1")
+#         # 确保 'Date' 列是 datetime 类型
+#         team_data["Date"] = pd.to_datetime(team_data["Date"], errors="coerce")
+#         # 转换列为数值类型
+#         team_data = convert_to_numeric(team_data, sum_columns)
+#     except Exception as e:
+#         print(f"Error with file {file_path}: {e}")
+#         continue
+
+#     # 检查是否存在用于标识比赛的“Date”字段
+#     if team_data["Date"].isnull().any():
+#         print(f"Missing or incorrect 'Date' in file {file_path}, skipping.")
+#         continue
+
+#     # 对相同比赛日期的行进行分组，并加和指定的数值列
+#     games_summary = team_data.groupby("Date")[sum_columns].sum().reset_index()
+
+#     # 检查是否得到了预期数量的比赛（例如82场）
+#     if len(games_summary) != 82:
+#         print(
+#             f"Incorrect number of games in file {file_path}, expected 82 but got {len(games_summary)}."
+#         )
+
+#     # 保存汇总后的数据到新文件
+#     summary_file_path = file_path.replace(".csv", "_summarized.csv")
+#     games_summary.to_csv(summary_file_path, index=False)
+
+#     print(f"Processed and saved summarized data for file {summary_file_path}")
+
+
+#   更新版本  ：  求 平均值 ！ ---------------- 不用
+# import os
+# import pandas as pd
+
+# # 设置包含所有球队比赛数据的文件夹路径
+# teams_folder = "summer-project/predict_0"
+
+# # 获取所有球队数据文件的路径
+# team_files = [
+#     os.path.join(teams_folder, f)
+#     for f in os.listdir(teams_folder)
+#     if f.endswith(".csv")
+# ]
+
+# sum_columns = [
+#     "MP",
+#     "FG",
+#     "FGA",
+#     "FG%",
+#     "3P",
+#     "3PA",
+#     "3P%",
+#     "FT",
+#     "FTA",
+#     "FT%",
+#     "ORB",
+#     "DRB",
+#     "TRB",
+#     "AST",
+#     "STL",
+#     "BLK",
+#     "TOV",
+#     "PF",
+#     "PTS",
+#     "GmSc",
+#     "+/-",
+#     "2PA",
+#     "2P",
+#     "2P%",
+#     "CO_EFF",
+#     "EFF",
+#     "avg_EFF",
+#     "CO_HGS",
+#     "HGS",
+#     "avg_HGS",
+#     "PER",
+#     "WS",
+#     "BPM",
+#     "OBPM",
+#     "DBPM",
+#     "TS%",
+#     "3PAr",
+#     "FTr",
+#     "VORP",
+#     "OWS",
+# ]
+
+
+# def convert_to_numeric(df, columns):
+#     for column in columns:
+#         # 尝试转换为数值类型，不成功的转换为NaN
+#         df[column] = pd.to_numeric(df[column], errors="coerce")
+#     # 删除包含NaN的行
+#     df.dropna(subset=columns, inplace=True)
+#     return df
+
+
+# # 遍历每个球队的文件
+# for file_path in team_files:
+#     print(f"Processing file: {file_path}")  # 打印当前正在处理的文件名
+#     try:
+#         team_data = pd.read_csv(file_path, encoding="ISO-8859-1")
+#         team_data = convert_to_numeric(team_data, sum_columns)
+#         # 确保 'Date' 列是 datetime 类型
+#         team_data["Date"] = pd.to_datetime(team_data["Date"], errors="coerce")
+#     except Exception as e:
+#         print(f"Error with file {file_path}: {e}")
+#         continue
+
+#     # 检查是否存在用于标识比赛的“Date”字段
+#     if team_data["Date"].isnull().any():
+#         print(f"Missing or incorrect 'Date' in file {file_path}, skipping.")
+#         continue
+
+#     # 对相同比赛日期的行进行分组，并加和指定的数值列
+#     games_summary = team_data.groupby("Date")[sum_columns].sum().reset_index()
+
+#     # 添加球员计数
+#     player_count = (
+#         team_data.groupby("Date")["player_name"]
+#         .nunique()
+#         .reset_index(name="player_count")
+#     )
+#     games_summary = games_summary.merge(player_count, on="Date")
+
+#     # 计算平均值并创建新列
+#     for column in sum_columns:
+#         games_summary[column + "_avg"] = (
+#             games_summary[column] / games_summary["player_count"]
+#         )
+
+#     # 移除player_count列
+#     games_summary.drop(columns=["player_count"], inplace=True)
+
+#     # 检查是否得到了预期数量的比赛（例如82场）
+#     if len(games_summary) != 82:
+#         print(
+#             f"Incorrect number of games in file {file_path}, expected 82 but got {len(games_summary)}."
+#         )
+
+#     # 保存汇总后的数据到新文件
+#     summary_file_path = file_path.replace(".csv", "_summarized.csv")
+#     games_summary.to_csv(summary_file_path, index=False)
+
+#     print(f"Processed and saved summarized data for file {summary_file_path}")
+
+
+#      --------------------------           单独修改 BRK_season.csv  ----------------------------- （不用）
+
+# import pandas as pd
+# import os
+
+# # Set the path to the BRK_season.csv file
+# file_path = "summer-project\predict_0\BRK_season.csv"
+
+# # Define the columns to be summed
+# sum_columns = [
+#     "MP",
+#     "FG",
+#     "FGA",
+#     "FG%",
+#     "3P",
+#     "3PA",
+#     "3P%",
+#     "FT",
+#     "FTA",
+#     "FT%",
+#     "ORB",
+#     "DRB",
+#     "TRB",
+#     "AST",
+#     "STL",
+#     "BLK",
+#     "TOV",
+#     "PF",
+#     "PTS",
+#     "GmSc",
+#     "+/-",
+#     "2PA",
+#     "2P",
+#     "2P%",
+#     "CO_EFF",
+#     "EFF",
+#     "avg_EFF",
+#     "CO_HGS",
+#     "HGS",
+#     "avg_HGS",
+#     "PER",
+#     "WS",
+#     "BPM",
+#     "OBPM",
+#     "DBPM",
+#     "TS%",
+#     "3PAr",
+#     "FTr",
+#     "VORP",
+#     "OWS",
+#     # ... your columns here ...
+# ]
+
+
+# def convert_to_numeric(df, columns):
+#     for column in columns:
+#         df[column] = pd.to_numeric(df[column], errors="coerce").fillna(0)
+#     return df
+
+
+# # Read the BRK_season.csv file
+# try:
+#     team_data = pd.read_csv(file_path, encoding="ISO-8859-1")
+
+#     # Clean the 'Date' column by replacing slashes with dashes
+#     team_data["Date"] = team_data["Date"].str.replace("/", "-").str.strip()
+
+#     # Attempt to standardize the 'Date' column before conversion to datetime
+#     team_data["Date"] = team_data["Date"].apply(
+#         lambda x: pd.to_datetime(x, errors="coerce")
+#     )
+
+#     # Drop rows where 'Date' could not be parsed
+#     team_data.dropna(subset=["Date"], inplace=True)
+
+#     # Convert columns to numeric values
+#     team_data = convert_to_numeric(team_data, sum_columns)
+# except Exception as e:
+#     print(f"Error with file {file_path}: {e}")
+#     # If an error occurs, do not continue
+#     raise
+
+# # Check if the 'Date' field, used to identify games, is present
+# if team_data["Date"].isnull().any():
+#     print(f"Missing or incorrect 'Date' in file {file_path}, skipping.")
+# else:
+#     # Group rows by the same game date and sum the specified numeric columns
+#     games_summary = team_data.groupby("Date")[sum_columns].sum().reset_index()
+
+#     # Save the summarized data to a new file
+#     summary_file_path = os.path.join(
+#         os.getcwd(), file_path.replace(".csv", "_summarized.csv")
+#     )
+#     games_summary.to_csv(summary_file_path, index=False)
+
+#     print(f"Processed and saved summarized data for file {summary_file_path}")
+
+# import os
+# import pandas as pd
+
+
+# def process_team_season_file(team_file):
+#     team_data = pd.read_csv(team_file, encoding="ISO-8859-1")
+
+#     team_data["Date"] = team_data["Date"].str.replace("/", "-").str.strip()
+#     team_data["Date"] = pd.to_datetime(team_data["Date"], errors="coerce")
+#     team_data.dropna(subset=["Date"], inplace=True)
+
+#     # 假设 'MP' 列存在且是上场时间，我们将其转换为数值类型
+#     if "MP" in team_data.columns:
+#         team_data["MP"] = pd.to_numeric(team_data["MP"], errors="coerce").fillna(0)
+#     team_data["Player_Played"] = team_data["MP"] > 0
+
+#     # 检查并转换所有应该是数值类型的列
+#     sum_columns = team_data.columns.difference(["Date", "Player_Played", "MP"])
+#     for col in sum_columns:
+#         team_data[col] = pd.to_numeric(team_data[col], errors="coerce").fillna(0)
+
+#     games_summary = (
+#         team_data.groupby("Date")
+#         .agg({**{col: "sum" for col in sum_columns}, "Player_Played": "sum"})
+#         .reset_index()
+#     )
+
+#     for col in sum_columns:
+#         games_summary[f"avg_{col}"] = (
+#             games_summary[col] / games_summary["Player_Played"]
+#         )
+
+#     summary_file_path = team_file.replace(".csv", "_summarized.csv")
+#     games_summary.to_csv(summary_file_path, index=False)
+
+#     return summary_file_path
+
+
+# # 设置包含所有球队比赛数据的文件夹路径
+# teams_folder = "c:/Users/10357/Desktop/Summer_project_GitHub/summer-project/predict_0"
+
+# # 获取所有球队数据文件的路径
+# team_files = [
+#     os.path.join(teams_folder, f)
+#     for f in os.listdir(teams_folder)
+#     if f.endswith(".csv")
+# ]
+
+# # 过滤掉已经汇总的文件
+# team_files_to_process = [f for f in team_files if not f.endswith("_summarized.csv")]
+
+# # Process each team file and save the new summarized file
+# summary_files = [
+#     process_team_season_file(team_file) for team_file in team_files_to_process
+# ]
+
+# # This will print out the paths to the new summarized files
+# print(summary_files)
+
+
+#  -------------------------  更新球员最新版本 ！！！！！
+
+# import os
+# import pandas as pd
+
+# # 设置包含所有球队比赛数据的文件夹路径
+# teams_folder = "summer-project/predict_0"
+
+
+# def convert_to_numeric(df, columns):
+#     for column in columns:
+#         df[column] = pd.to_numeric(df[column], errors="coerce").fillna(0)
+#     return df
+
+
+# # 获取所有球队数据文件的路径
+# team_files = [
+#     os.path.join(teams_folder, f)
+#     for f in os.listdir(teams_folder)
+#     if f.endswith(".csv")
+# ]
+
+# # 定义要加和的列
+# sum_columns = [
+#     "MP",
+#     "FG",
+#     "FGA",
+#     "FG%",
+#     "3P",
+#     "3PA",
+#     "3P%",
+#     "FT",
+#     "FTA",
+#     "FT%",
+#     "ORB",
+#     "DRB",
+#     "TRB",
+#     "AST",
+#     "STL",
+#     "BLK",
+#     "TOV",
+#     "PF",
+#     "PTS",
+#     "GmSc",
+#     "+/-",
+#     "2PA",
+#     "2P",
+#     "2P%",
+#     "CO_EFF",
+#     "EFF",
+#     "avg_EFF",
+#     "CO_HGS",
+#     "HGS",
+#     "avg_HGS",
+#     "PER",
+#     "WS",
+#     "BPM",
+#     "OBPM",
+#     "DBPM",
+#     "TS%",
+#     "3PAr",
+#     "FTr",
+#     "VORP",
+#     "OWS",
+# ]
+
+
+# def calculate_averages(team_data, sum_columns):
+#     # 计算上场球员的平均值
+#     team_data["Player_Played"] = team_data["MP"] > 0
+#     games_summary = (
+#         team_data.groupby("Date")
+#         .agg({col: "sum" for col in sum_columns + ["Player_Played"]})
+#         .reset_index()
+#     )
+#     for col in sum_columns:
+#         games_summary[f"avg_{col}"] = (
+#             games_summary[col] / games_summary["Player_Played"]
+#         )
+#     return games_summary
+
+
+# # 遍历每个球队的文件
+# for file_path in team_files:
+#     team_data = pd.read_csv(file_path, encoding="ISO-8859-1")
+#     team_data["Date"] = pd.to_datetime(team_data["Date"], errors="coerce")
+#     team_data = convert_to_numeric(team_data, sum_columns)
+
+#     if team_data["Date"].isnull().any():
+#         print(f"Missing or incorrect 'Date' in file {file_path}, skipping.")
+#         continue
+
+#     games_summary = calculate_averages(team_data, sum_columns)
+
+#     # 如果需要检查每场比赛的数量，可以取消注释下面的代码
+#     # if len(games_summary) != 82:
+#     #     print(f"Incorrect number of games in file {file_path}, expected 82 but got {len(games_summary)}.")
+
+#     summary_file_path = file_path.replace(".csv", "_summarized.csv")
+#     games_summary.to_csv(summary_file_path, index=False)
+
+#     print(f"Processed and saved summarized data for file {summary_file_path}")
+
+
+#                                            最终版本 合并成功版本！
+# import pandas as pd
+# import os
+
+
+# def merge_team_and_opp_stats(row, opp_data_folder):
+#     # 根据Date和Team找到对应的对手数据文件
+#     opp_team_file = os.path.join(
+#         opp_data_folder, f"{row['team_opp_team']}_season_summarized.csv"
+#     )
+#     if os.path.isfile(opp_team_file):
+#         opp_df = pd.read_csv(opp_team_file)
+#         # 根据Date找到对应的对手数据
+#         opp_row = opp_df[opp_df["Date"] == row["Date"]]
+#         if not opp_row.empty:
+#             # 为对手数据添加后缀_opp
+#             opp_row = opp_row.add_suffix("_opp").rename(
+#                 columns={"Date_opp": "Date", "Team_opp": "Team_opp_opp"}
+#             )
+#             # 将对手数据合并到主队数据行
+#             for col in opp_row.columns:
+#                 if col not in ["Date", "Team_opp_opp"]:
+#                     row[col] = opp_row[col].values[0]
+#     return row
+
+
+# # 设置文件夹路径
+# folder_path = "summer-project/predict_0/summerize"
+# combined_data_path = "combined_season_data.csv"
+# # 读取合并后的数据
+# combined_data = pd.read_csv(combined_data_path)
+
+# # 为每一行合并对手数据
+# combined_data = combined_data.apply(
+#     merge_team_and_opp_stats, axis=1, opp_data_folder=folder_path
+# )
+
+# # 保存更新后的数据到CSV文件
+# combined_data.to_csv("updated_combined_season_data.csv", index=False)
+
+#  视频里的第一步
+# import pandas as pd
+
+# # Assuming the CSV file's first column is a proper index
+# df = pd.read_csv("updated_combined_season_data.csv")
+
+
+# # Function to add a target variable for predicting the next game outcome
+# def add_target(group):
+#     group["target"] = group["WIN_team"].shift(-1)  # Assuming 'won' column exists
+#     return group
+
+
+# # Ensure 'team' column exists and data is sorted appropriately within each group
+# if "Team" in df.columns:
+#     df = df.sort_values(
+#         by=["Team", "Date"]
+#     )  # Replace 'Date' with the actual date column name
+#     df = df.groupby("Team", group_keys=False).apply(add_target)
+# else:
+#     print("The 'team' column does not exist in the dataframe.")
+
+# # Save the updated dataframe
+# df.to_csv("updated_combined_season_data.csv", index=False)
+
+
+#                         转换 W（+1） 转化成 0 1
+# import pandas as pd
+
+
+# # Function to extract the win/loss result and scoring margin from a column
+# def extract_info(column):
+#     # Handle NaN values and ensure the data is treated as a string
+#     column = column.fillna("").astype(str)
+
+#     # For win/loss result
+#     result = column.apply(
+#         lambda x: 1 if x.startswith("W") else (0 if x.startswith("L") else None)
+#     )
+
+#     # For scoring margin
+#     margin = column.str.extract(r"\(([-+]?\d+)\)")[0].astype(float)
+#     return result, margin
+
+
+# # Read the data from CSV file
+# df = pd.read_csv("updated_combined_season_data.csv")
+
+# # Apply the function to the 'WON' and 'target' columns
+# df["WON_results"], df["scoring_margin_WON"] = extract_info(df["WON"])
+# df["target_results"], df["scoring_margin_target"] = extract_info(df["target"])
+
+# # Save the modified DataFrame back to CSV
+# df.to_csv("updated_combined_season_data_modified.csv", index=False)
+
+import pandas as pd
+
+df = pd.read_csv("updated_combined_season_data_modified.csv")
+# df.loc[pd.isnull(df["target_results"]), "target_results"] = 2
+# df["target_results"] = df["target_results"].astype(int, errors="ignore")
+# df.to_csv("updated_combined_season_data_modified.csv", index=False)
+nulls = pd.isnull(df).sum()
+nulls = nulls[nulls > 0]
+valid_columns = df.columns[~df.columns.isin(nulls.index)]
+print(valid_columns)
+df = df[valid_columns].copy()
+from sklearn.linear_model import RidgeClassifier
+from sklearn.feature_selection import SequentialFeatureSelector
+from sklearn.model_selection import TimeSeriesSplit
+
+rr = RidgeClassifier(alpha=1)
+
+split = TimeSeriesSplit(n_splits=3)
+
+sfs = SequentialFeatureSelector(
+    rr, n_features_to_select=30, direction="forward", cv=split, n_jobs=1
+)
+removed_columns = ["team_opp_team", "Date", "Team", "MP_team", "team", "team_opp"]
+selected_columns = df.columns[~df.columns.isin(removed_columns)]
+
+
+# import pandas as pd
+
+# # 加载数据
+# # 确保将'your_file_path.csv'替换为您的CSV文件的路径
+# data = pd.read_csv("updated_combined_season_data_modified.csv")
+
+# # 替换 'home_team' 和 'home_opp' 列中的空值为 1
+# data["home_team"].fillna(1, inplace=True)
+# data["home_opp"].fillna(1, inplace=True)
+
+# # 如果需要，可以将更改后的数据保存回CSV文件
+# data.to_csv("updated_combined_season_data_modified.csv", index=False)

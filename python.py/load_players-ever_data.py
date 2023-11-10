@@ -25,16 +25,16 @@ gamelog_urls = {}
 
 # for name, url in players.items():
 #     # 对于每一个年份生成一个gamelog URL
-#     year = 2023  # 这将生成从2018到2023的URL
+#     year = 2022
 #     new_url = url.replace(".html", f"/gamelog/{year}/")
 #     if name in gamelog_urls:
 #         gamelog_urls[name].append(new_url)
 #     else:
 #         gamelog_urls[name] = [new_url]
 
-# with open("summer-project\player_url_list_season_strong_final.txt", "w") as f:
+# with open("summer-project\player_url_list_season_strong_final_2022.txt", "w") as f:
 #     f.write(json.dumps(gamelog_urls))
-with open("summer-project\player_url_list_season_strong_final.txt", "r") as f:
+with open("summer-project\player_url_list_season_strong_final_2022.txt", "r") as f:
     gamelog_urls = json.loads(f.read())
 for name, urls in gamelog_urls.items():
     try:
@@ -44,7 +44,7 @@ for name, urls in gamelog_urls.items():
             By.XPATH, "//table[@id='pgl_basic']"
         ).get_attribute("outerHTML")
         seasons_frame = pd.read_html(leader_content)[0]
-        seasons_frame.to_csv("summer-project\players_season/" + name + ".csv")
+        seasons_frame.to_csv("summer-project\players_season_2022/" + name + ".csv")
         time.sleep(10)  # 休眠10秒，以减轻服务器压力
     except (NoSuchElementException, TimeoutException, WebDriverException) as e:
         print(f"Error accessing URL {url} for player {name}: {e}")
